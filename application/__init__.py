@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from .main import app as flask_app
+from application.main import app as flask_app
