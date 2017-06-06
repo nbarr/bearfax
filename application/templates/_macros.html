@@ -1,0 +1,26 @@
+{% macro render_errors(field) %}
+  {%- if field.errors -%}
+  <label class="control-label" for="{{ field.id }}">{{ '<br>'.join(field.errors) }}</label>
+  {%- endif -%}
+{% endmacro %}
+
+
+{% macro render_field(field, class) %}
+  <div class="form-group {% if field.errors %}has-error{% endif %}">
+    {{ render_errors(field) }}
+    {{ field(class=class) }}
+  </div>
+{% endmacro %}
+
+{% macro render_checkbox(field, text, class) %}
+  <div class="form-group {% if field.errors %}has-error{% endif %}" style="margin-top: 0;">
+    {{ render_errors(field) }}
+
+    <div class="checkbox">
+      <label>
+        {{ field(class=class) }}
+        <span class="checkbox-material"><span class="check"></span></span> {{ text | safe }}
+      </label>
+    </div>
+  </div>
+{% endmacro %}
