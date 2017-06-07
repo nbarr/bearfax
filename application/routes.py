@@ -20,3 +20,7 @@ def configure_routes(app):
     from application.home.views import HomeMethodView
     home_view = HomeMethodView.as_view('views.home')
     app.add_url_rule('/', view_func=home_view, methods=['GET', 'POST'])
+
+    from application.process.views import ProcessMethodView
+    process_view = ProcessMethodView.as_view('views.process')
+    app.add_url_rule('/process/<token>', view_func=process_view, methods=['GET'])

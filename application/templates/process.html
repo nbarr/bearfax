@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block main %}
+  {%- if error_message -%}
+    <div class="container text-center">
+      <div class="jumbotron">
+        <h2>Something went wrong</h2>
+        <p class="lead error has-error">{{ error_message | safe }}</p>
+      </div>
+    </div>
+  {%- else -%}
+    AAAAA
+  {%- endif -%}
+{% endblock main %}

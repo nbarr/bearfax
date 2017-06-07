@@ -6,7 +6,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 from application.routes import configure_routes
 from application.common import filters
 from application.common import json_enc
-from application.extensions import csrf
+from application.extensions import csrf, mail, security
+from application.database.datastore import RawSQLAUserDatastore
+from application.database.engine import session
+from application.models import User, Role
 
 
 def init(name):
@@ -33,7 +36,11 @@ def configure_app(app):
 
 
 def configure_extensions(app):
-    toolbar = DebugToolbarExtension(app)
+    datastore = RawSQLAUserDatastore(session, User, Role)
+    security.init_app(app, datastore)
+
+    DebugToolbarExtension(app)
     csrf.init_app(app)
+    mail.init_app(app)
 
 app = init(__name__)

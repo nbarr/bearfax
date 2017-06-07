@@ -126,3 +126,7 @@ def count(query_object):
 
 def as_date(value):
     return value.strftime(DATE_FORMAT) if type(value) in [date, datetime] else value
+
+
+def is_ascii(value):
+    return isinstance(value, str) and len(value) == len(value.encode())
