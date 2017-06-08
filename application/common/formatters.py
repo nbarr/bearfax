@@ -20,7 +20,7 @@ def safe_join(sequence, separator='', skip_list=None, skip_false=False, converte
         if skip_list is None:
             skip_list = []
 
-        result =  separator.join([converter(item) for item in sequence
+        result = separator.join([converter(item) for item in sequence
                                   if item not in skip_list and not (skip_false and not bool(item))])
 
         if remove_duplicated_separators:

@@ -62,3 +62,4 @@ class Task(Base):
     status = Column(String(length=10), nullable=True)
     attempts = Column(Integer(), nullable=True)
     url = Column(String(length=300), nullable=False)
+    fax = Column(String(length=20), nullable=False)

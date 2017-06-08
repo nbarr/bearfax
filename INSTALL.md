@@ -27,6 +27,11 @@
     ```
     yum -y install uwsgi uwsgi-emperor uwsgi-plugin-python3 uwsgi-logger-file git nginx
     ```
+- Turn off uwsgi's tyrant mode
+    ```
+    sudo nano /etc/uwsgi.ini
+    emperor-tyrant = true -> emperor-tyrant = false
+    ```
 - OPTIONAL: Install lynx browser
     ```
     yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional
@@ -88,16 +93,12 @@
     ```
     git clone git@github.com:nbarr/bearfax.git
     ```
-- Fix owner:
+- Fix owner (after each deploy):
     ```
     sudo chown ec2-user:bearfax /srv/bearfax
     ```
-- Link uwsgi conf and fix its owner:
+- Setup uwsgi and nginx configs
     ```
     sudo ln -sf /srv/bearfax/conf/uwsgi.ini /etc/uwsgi.d/bearfax-dev.ini
-    sudo chown -h uwsgi:bearfax /etc/uwsgi.d/bearfax-dev.ini
-    ```
-- Link nginx conf
-    ```
     sudo ln -sf /srv/bearfax/conf/nginx.conf /etc/nginx/conf.d/bearfax-dev.conf
     ```

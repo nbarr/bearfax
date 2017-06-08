@@ -14,8 +14,9 @@ MESSAGES = {
     'NO_SUCH_USER': 'No users found accordingly to your criteria.',
     'USER_NOT_AUTHORIZED': 'User is not authorised to perform this action.',
     'USER_NOT_AUTHENTICATED': 'User is not authenticated.',
-}
 
+    'FAX_INVALID': 'Fax number is invalid.'
+}
 
 
 def _safe_format(template, **kwargs):

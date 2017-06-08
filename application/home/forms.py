@@ -6,6 +6,7 @@ from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import Required, Email
 
 from application.common.forms import BaseForm
+from application.common.validators import FaxRequired
 
 
 class HomeUploadForm(BaseForm):
@@ -14,7 +15,10 @@ class HomeUploadForm(BaseForm):
         'required': True
     })
 
-    fax = StringField('Fax', validators=[Required()], render_kw={
+    fax = StringField('Fax', validators=[
+        Required(),
+        FaxRequired()
+    ], render_kw={
         'placeholder': 'Fax',
         'required': True,
         'pattern': '[0-9+\(\)\-]+'
@@ -25,6 +29,7 @@ class HomeUploadForm(BaseForm):
         'required': True,
         'pattern': '.{2,}@.{2,}\..{2,}'
     })
+
     tos_accepted = BooleanField('ToS', validators=[Required()], render_kw={
         'required': True
     })

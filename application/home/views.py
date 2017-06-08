@@ -7,7 +7,7 @@ from flask.views import MethodView
 from application.home.forms import HomeUploadForm
 from application.common.s3files import s3_upload_file, s3_get_file
 from application.common.formatters import safe_join
-from application.common.filters import is_ascii
+from application.common.filters import is_ascii, strip_non_numeric
 from application.models import Task, User
 from application.database import session
 from application.common.token_serialize import serialize
@@ -51,7 +51,8 @@ class HomeMethodView(MethodView):
                 document_name=filename,
                 prefix=prefix,
                 status=Task.STATUS_QUEUED,
-                url=url
+                url=url,
+                fax=strip_non_numeric(form.fax.data)
             )
             session.add(task)
             session.commit()

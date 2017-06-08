@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
+import re
 import json
 from datetime import date, datetime
 from flask import current_app, url_for
@@ -10,6 +10,10 @@ try:
     from application.config.settings import DATE_FORMAT
 except ImportError:
     DATE_FORMAT = '%Y-%m-%d'
+
+
+def strip_non_numeric(value):
+    return re.sub('[^0-9]', '', str(value))
 
 
 def app_settings_item(key, default=None):
