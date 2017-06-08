@@ -3,6 +3,9 @@
 from flask import render_template, url_for, current_app
 from flask_mail import Message
 from application.extensions import mail
+from application.database import session
+from application.models import LogInfo
+from application.common.token_serialize import deserialize
 
 
 def render(template_key, **kwargs):
@@ -35,3 +38,13 @@ def send_confirmation_mail(recipients, task, token):
     msg.body = text
 
     mail.send(msg)
+
+    _, _, data = deserialize(token)
+
+    loginfo = LogInfo(
+        user_id=data['user_id'],
+        task_id=data['task_id'],
+        event=LogInfo.EVENT_CONFIRM_EMAIL_SENT,
+    )
+    session.add(loginfo)
+    session.commit()

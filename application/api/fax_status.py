@@ -23,7 +23,9 @@ class FaxStatusApi(MethodView):
         if invalid or not data:
             return response(*response_fail(message=get_message('NOT_FOUND')))
 
+        session.commit()
         task = session.query(Task).get(data.get('task_id', -1))
+
         if not task:
             return response(*response_fail(message=get_message('NOT_FOUND')))
 
@@ -32,17 +34,27 @@ class FaxStatusApi(MethodView):
         elif dataset == 'email_verified':
             return response(*response_json(success=task.user.confirmed_at))
         elif dataset == 'fax_queued':
-            # TODO: think twice, maybe it shouls be shown on "step 4" card?
-            message = ''
+            message, data = None, None
 
             if task.status == Task.STATUS_UNCONFIRMED:
                 message = get_message('TASK_UNCONFIRMED')
             elif task.status == Task.STATUS_FAILED:
                 message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token))
+            elif task.status == Task.STATUS_PENDING:
+                data = {'in_progress': True}
 
-            return response(*response_json(success=not bool(message), message=message))
+            return response(*response_json(success=not bool(message), message=message, data=data))
         elif dataset == 'fax_being_transmitted':
-            # TODO: really don't know how to detect this step
-            return response(*response_ok(data={'in_progress': True}))
+            message, data = None, None
+
+            if task.status == Task.STATUS_QUEUED:
+                data = {'in_progress': True}
+
+            return response(*response_ok(message=message, data=data))
         elif dataset == 'fax_sent':
-            return response(*response_json(success=(task.status == Task.STATUS_SENT)))
+            message = None
+
+            if task.status == Task.STATUS_FAILED:
+                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token))
+
+            return response(*response_json(success=(task.status == Task.STATUS_SENT), message=message))

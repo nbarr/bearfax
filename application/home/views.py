@@ -71,7 +71,7 @@ class HomeMethodView(MethodView):
                 )
 
                 if task and task.id:
-                    task.delete()
+                    session.delete(task)
                     session.commit()
 
                 raise

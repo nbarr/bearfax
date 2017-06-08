@@ -21,7 +21,7 @@ def safe_join(sequence, separator='', skip_list=None, skip_false=False, converte
             skip_list = []
 
         result = separator.join([converter(item) for item in sequence
-                                  if item not in skip_list and not (skip_false and not bool(item))])
+                                 if item not in skip_list and not (skip_false and not bool(item))])
 
         if remove_duplicated_separators:
             result = re.sub('{}+'.format(separator), separator, result, re.IGNORECASE | re.UNICODE)

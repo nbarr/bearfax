@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from wtforms.fields import StringField, BooleanField, SubmitField
+from wtforms.fields import StringField, BooleanField
 from wtforms.fields.html5 import EmailField
 from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import Required, Email
@@ -33,5 +33,3 @@ class HomeUploadForm(BaseForm):
     tos_accepted = BooleanField('ToS', validators=[Required()], render_kw={
         'required': True
     })
-
-    submit = SubmitField()

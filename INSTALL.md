@@ -23,6 +23,7 @@
 - Install Python 3
     ```
     yum -y install python34 python34-pip
+    ```
 - Install Uwsgi and Nginx
     ```
     yum -y install uwsgi uwsgi-emperor uwsgi-plugin-python3 uwsgi-logger-file git nginx

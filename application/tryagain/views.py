@@ -19,7 +19,7 @@ class TryagainMethodView(MethodView):
 
         task = session.query(Task).get(data['task_id'])
 
-        if not task or not task.status == Task.STATUS_FAILED:
+        if not task or task.status != Task.STATUS_FAILED:
             abort(404)
 
         form = TryAgainForm(obj=task)

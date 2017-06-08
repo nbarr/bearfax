@@ -391,3 +391,8 @@ footer {
   background-color: lightgray;
   opacity: 0.3;
 }
+
+/* Intl phone input overrides */
+.intl-tel-input {
+  width: 100%;
+}

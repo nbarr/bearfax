@@ -19,7 +19,7 @@ def deserialize(token):
     serializer = get_serializer()
 
     try:
-        data = serializer.loads(token, max_age=settings.S3_EXPIRATION_SECONDS)
+        data = serializer.loads(token, max_age=settings.FAX_CONFIRMATION_EXPIRATION_SECONDS)
     except SignatureExpired:
         _, data = serializer.loads_unsafe(token)
         expired = True

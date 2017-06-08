@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from flask import render_template
+from flask import render_template, redirect, url_for
 from flask.views import MethodView
 from application.common.token_serialize import deserialize
 from application.config.messages import get_message
@@ -24,13 +24,16 @@ class ProcessMethodView(MethodView):
         if not task:
             return render_template('process.html', error_message=get_message('TASK_NOT_FOUND'))
 
+        if task.status in [Task.STATUS_SENT]:
+            return redirect(url_for('views.home'))
+
         if task.user:
             if not task.user.confirmed_at:
                 task.user.confirmed_at = datetime.utcnow()
                 task.user.active = True
 
         if task.status == Task.STATUS_UNCONFIRMED:
-            task.status = Task.STATUS_QUEUED
+            task.status = Task.STATUS_PENDING
 
         session.commit()
 

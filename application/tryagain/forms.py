@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from wtforms.fields import StringField, SubmitField
+from wtforms.fields import StringField
 from wtforms.validators import Required
 
 from application.common.forms import BaseForm
@@ -20,5 +20,3 @@ class TryAgainForm(BaseForm):
     document_orig_name = StringField(render_kw={'disabled': True})
 
     email = StringField(render_kw={'disabled': True})
-
-    submit = SubmitField()
