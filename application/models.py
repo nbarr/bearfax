@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean, Table, event
+from sqlalchemy import Column, Integer, SmallInteger, String, DateTime, ForeignKey, Boolean, Table, event
 from sqlalchemy.orm import backref, relationship
 from flask import current_app
 from flask_security import RoleMixin
@@ -59,16 +59,17 @@ class Task(Base):
     user_id = Column(Integer(), ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref=backref('tasks', cascade='all, delete-orphan'), uselist=False)
 
-    status = Column(String(length=10), nullable=True)
+    status = Column(String(length=10))
 
     document_orig_name = Column(String(length=100), nullable=False)
     document_name = Column(String(length=150), nullable=False, unique=True)
     prefix = Column(String(length=50), nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    attempts = Column(Integer(), nullable=True)
+    attempts = Column(Integer())
     url = Column(String(length=300), nullable=False)
     fax = Column(String(length=20), nullable=False)
     fax_sid = Column(String(length=50))
+    pages_count = Column(SmallInteger())
 
 
 class LogInfo(Base):

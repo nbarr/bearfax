@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import uuid
+import PyPDF2
 from werkzeug.utils import secure_filename
 from flask import render_template, current_app
 from flask.views import MethodView
+from application.config import settings
+from application.config.messages import get_message
 from application.home.forms import HomeUploadForm
 from application.common.s3files import s3_upload_file, s3_get_file, s3_delete_file
 from application.common.formatters import safe_join
@@ -29,7 +32,17 @@ class HomeMethodView(MethodView):
                 prefix = '_'
             prefix = safe_join([prefix, form.email.data], '/', remove_duplicated_separators=True)
 
+            pdf_reader = PyPDF2.PdfFileReader(file.stream)
+            pdf_pages_count = pdf_reader.getNumPages()
+
+            if pdf_pages_count > settings.MAX_PDF_PAGES:
+                form.document.errors.append(get_message('MAX_PDF_PAGES_ALLOWED',
+                                                        pages=settings.MAX_PDF_PAGES, actual=pdf_pages_count))
+                return render_template('home.html', form=form)
+
             try:
+                file.stream.seek(0)
+
                 s3_upload_file(
                     current_app.config['AWS_ACCESS_KEY_ID'], current_app.config['AWS_SECRET_KEY_ID'],
                     current_app.config['AWS_BUCKET'], file.stream, filename, prefix
@@ -54,7 +67,8 @@ class HomeMethodView(MethodView):
                     prefix=prefix,
                     status=Task.STATUS_UNCONFIRMED,
                     url=url,
-                    fax=strip_non_numeric(form.fax.data)
+                    fax=strip_non_numeric(form.fax.data),
+                    pages_count=pdf_pages_count
                 )
                 session.add(task)
                 session.commit()
