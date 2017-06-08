@@ -43,6 +43,6 @@ class FaxStatusApi(MethodView):
             return response(*response_json(success=not bool(message), message=message))
         elif dataset == 'fax_being_transmitted':
             # TODO: really don't know how to detect this step
-            pass
+            return response(*response_ok(data={'in_progress': True}))
         elif dataset == 'fax_sent':
             return response(*response_json(success=(task.status == Task.STATUS_SENT)))

@@ -11,6 +11,8 @@ function processStep($card, callback) {
       .html(message || 'Unable to get information about this step. Try again later.');
   };
 
+  console.log('Polling status endpoint for dataset ' + dataset);
+
   $.ajax({
     type: 'GET',
     url: '/api/fax_status/',
@@ -19,8 +21,13 @@ function processStep($card, callback) {
       if (!response.success) {
         onerror(response.message);
       } else {
-        $card.removeClass('processing').addClass('done');
-        if (callback) callback();
+        if (response.data && response.data.in_progress) {
+          console.log('Response for dataset ' + dataset + ' still not ready, throttling pending request...');
+          setTimeout(function() { processStep($card, callback); }, 7000);
+        } else {
+          $card.removeClass('processing').addClass('done');
+          if (callback) callback();
+        }
       }
     },
     error: onerror,
@@ -32,7 +39,11 @@ function processStep($card, callback) {
 $(function() {
   processStep($('[data-set="fax_requested"]'), function() {
     processStep($('[data-set="email_verified"]'), function() {
-      processStep($('[data-set="fax_queued"]'));
+      processStep($('[data-set="fax_queued"]'), function() {
+        processStep($('[data-set="fax_being_transmitted"]'), function() {
+          processStep($('[data-set="fax_sent"]'));
+        });
+      });
     });
   });
 });
