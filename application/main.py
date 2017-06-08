@@ -5,7 +5,6 @@ from logging import Formatter
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask
-from flask_debugtoolbar import DebugToolbarExtension
 
 from application.routes import configure_routes
 from application.common import filters, json_enc
@@ -50,7 +49,6 @@ def configure_extensions(app):
     datastore = RawSQLAUserDatastore(session, User, Role)
     security.init_app(app, datastore)
 
-    DebugToolbarExtension(app)
     csrf.init_app(app)
     mail.init_app(app)
 

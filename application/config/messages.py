@@ -23,6 +23,7 @@ MESSAGES = {
     'URL_EXPIRED': 'Your url is expired and cannot be used for confirmation anymore. Please try upload again.',
     'URL_INVALID': 'We cannot recognize token in your url, it is invalid.',
     'TASK_NOT_FOUND': 'Task not found.',
+    'FAX_MUST_BE_CHANGED': 'Fax number cannot be the same as before and must be changed.'
 }
 
 
