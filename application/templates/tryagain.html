@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+{% from '_macros.html' import render_field, render_checkbox, render_errors %}
+
+{%- set page_title, main_class='Ezfax :: Home', 'vcentered' -%}
+
+{% block main %}
+<div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-3">
+
+      <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="{{ url_for('views.home') }}">
+        <div style="display: none">
+          {{ form.csrf_token }}
+        </div>
+
+        <fieldset>
+          <div class="form-group">
+            {{ form.document_orig_name(class='form-control') }}
+          </div>
+
+          {{ render_field(form.fax, class='form-control') }}
+          {{ render_field(form.email, class='form-control') }}
+
+          <div class="form-group text-center">
+              {{ form.submit(class="btn btn-primary") }}
+          </div>
+        </fieldset>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock main %}
+
+{% block tail_js %}
+{{ super() }}
+
+<script type="text/javascript">
+  $(function() {
+    $(document).on('change', '[type="file"]', function() {
+      var input = $(this),
+          numFiles = input.get(0).files ? input.get(0).files.length : 1,
+          label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+      input.trigger('fileselect', [numFiles, label]);
+    });
+
+    // We can watch for our custom `fileselect` event like this
+    $(document).ready( function() {
+      $('[type="file"]').on('fileselect', function(event, numFiles, label) {
+        var input = $(this).parent().find('[type="text"]'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if( input.length ) {
+          input.val(log);
+        }
+      });
+    });
+  });
+</script>
+{% endblock tail_js %}

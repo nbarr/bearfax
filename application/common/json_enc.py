@@ -11,10 +11,9 @@ except ImportError:
     DATE_FORMAT = '%Y-%m-%d'
 
 try:
-    from  config.settings import DATE_TIME_FORMAT
+    from config.settings import DATE_TIME_FORMAT
 except ImportError:
     DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-
 
 
 class ExtendedJSONEncoder(json.JSONEncoder):

@@ -12,7 +12,7 @@
     </div>
   {%- else -%}
 {# Card template
-<div class="card card-fixed">
+<div class="card card-fixed unprocessed">
     <img class="card-img-top" src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif">
     <div class="card-block">
         <h4 class="card-title">Tawshif Ahsan Khan</h4>
@@ -22,6 +22,7 @@
         <div class="card-text">
             Tawshif is a web designer living in Bangladesh.
         </div>
+        <div class="error-message"></div>
     </div>
     <div class="card-footer">
         <span class="float-right">Joined in 2013</span>
@@ -32,7 +33,7 @@
 
 #}
   <div class="cards-container">
-      <div class="card card-fixed" data-set="fax_requested">
+      <div class="card card-fixed unprocessed" data-set="fax_requested">
         <div class="checkmark-container">
           <div class="circle-loader">
             <div class="checkmark draw"></div>
@@ -44,10 +45,11 @@
             <div class="card-text">
                 Fax requested
             </div>
+            <div class="error-message"></div>
         </div>
       </div>
 
-      <div class="card card-fixed" data-set="email_verified">
+      <div class="card card-fixed unprocessed" data-set="email_verified">
         <div class="checkmark-container">
           <div class="circle-loader">
             <div class="checkmark draw"></div>
@@ -59,10 +61,11 @@
               <div class="card-text">
                   Email verified
               </div>
+              <div class="error-message"></div>
           </div>
       </div>
 
-      <div class="card card-fixed" data-set="fax_queued">
+      <div class="card card-fixed unprocessed" data-set="fax_queued">
         <div class="checkmark-container">
           <div class="circle-loader">
             <div class="checkmark draw"></div>
@@ -74,10 +77,11 @@
               <div class="card-text">
                 Request queued
               </div>
+              <div class="error-message"></div>
           </div>
       </div>
 
-      <div class="card card-fixed" data-set="fax_being_transmitted">
+      <div class="card card-fixed unprocessed" data-set="fax_being_transmitted">
         <div class="checkmark-container">
           <div class="circle-loader">
             <div class="checkmark draw"></div>
@@ -89,10 +93,11 @@
               <div class="card-text">
                   Fax being transmitted
               </div>
+              <div class="error-message"></div>
           </div>
       </div>
 
-      <div class="card card-fixed" data-set="fax_sent">
+      <div class="card card-fixed unprocessed" data-set="fax_sent">
         <div class="checkmark-container">
           <div class="circle-loader">
             <div class="checkmark draw"></div>
@@ -104,6 +109,7 @@
               <div class="card-text">
                   Fax sent!
               </div>
+              <div class="error-message"></div>
           </div>
       </div>
 

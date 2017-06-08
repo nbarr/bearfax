@@ -5,7 +5,6 @@ from flask import render_template
 from flask.views import MethodView
 from application.common.token_serialize import deserialize
 from application.config.messages import get_message
-from application.config import settings
 from application.models import Task
 from application.database import session
 

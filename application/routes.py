@@ -44,6 +44,18 @@ def configure_routes(app):
     home_view = HomeMethodView.as_view('views.home')
     app.add_url_rule('/', view_func=home_view, methods=['GET', 'POST'])
 
+    from application.tryagain.views import TryagainMethodView
+    tryagain_view = TryagainMethodView.as_view('views.tryagain')
+    app.add_url_rule('/tryagain/<token>', view_func=tryagain_view, methods=['GET', 'POST'])
+
     from application.process.views import ProcessMethodView
     process_view = ProcessMethodView.as_view('views.process')
     app.add_url_rule('/process/<token>', view_func=process_view, methods=['GET'])
+
+    #
+    # API
+    #
+
+    from application.api.fax_status import FaxStatusApi
+    fax_status_api = FaxStatusApi.as_view('views.api.fax_status')
+    app.add_url_rule('/api/fax_status/', view_func=fax_status_api, methods=['GET'])
