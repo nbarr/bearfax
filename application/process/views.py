@@ -35,7 +35,9 @@ class ProcessMethodView(MethodView):
 
         session.commit()
 
-        return render_template('process.html', error_message='''This is temporary message indicated that
-        your document was uploaded and ready for prcessing. It will expires (and automatically removed) in
-        <b>{}</b> days. Public URL of your pdf is <b>{}</b>.
-        '''.format(settings.S3_EXPIRATION_DAYS, task.url))
+        return render_template('process.html')
+
+        # return render_template('process.html', error_message='''This is temporary message indicated that
+        # your document was uploaded and ready for prcessing. It will expires (and automatically removed) in
+        # <b>{}</b> days. Public URL of your pdf is <b>{}</b>.
+        # '''.format(settings.S3_EXPIRATION_DAYS, task.url))
