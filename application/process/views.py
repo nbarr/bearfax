@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from flask import render_template
 from flask.views import MethodView
 from application.common.token_serialize import deserialize
@@ -24,7 +25,17 @@ class ProcessMethodView(MethodView):
         if not task:
             return render_template('process.html', error_message=get_message('TASK_NOT_FOUND'))
 
+        if task.user:
+            if not task.user.confirmed_at:
+                task.user.confirmed_at = datetime.utcnow()
+                task.user.active = True
+
+        if task.status == Task.STATUS_UNCONFIRMED:
+            task.status = Task.STATUS_QUEUED
+
+        session.commit()
+
         return render_template('process.html', error_message='''This is temporary message indicated that
-        your document was uploaded and reay for prcessing. It will expires (and automatically removed) in
+        your document was uploaded and ready for prcessing. It will expires (and automatically removed) in
         <b>{}</b> days. Public URL of your pdf is <b>{}</b>.
         '''.format(settings.S3_EXPIRATION_DAYS, task.url))

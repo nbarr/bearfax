@@ -50,7 +50,7 @@ class HomeMethodView(MethodView):
                 document_orig_name=file.filename,
                 document_name=filename,
                 prefix=prefix,
-                status=Task.STATUS_QUEUED,
+                status=Task.STATUS_UNCONFIRMED,
                 url=url,
                 fax=strip_non_numeric(form.fax.data)
             )

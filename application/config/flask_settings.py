@@ -24,7 +24,6 @@ SECURITY_PASSWORD_SALT = '59)()2^9JPD&SFGq'
 
 # Flask-Mail
 
-MAIL_SUPPRESS_SEND = DEBUG
 MAIL_SERVER = os.getenv('MAIL_SERVER')
 MAIL_PORT = os.getenv('MAIL_PORT')
 MAIL_USE_TLS = bool(os.getenv('MAIL_USE_TLS'))

@@ -46,7 +46,7 @@ class Task(Base):
     __tablename__ = 'tasks'
 
     STATUS_QUEUED = 'queued'
-    STATUS_EXPIRED = 'expired'
+    STATUS_UNCONFIRMED = 'unconfirmed'
     STATUS_SENT = 'sent'
     STATUS_FAILED = 'failed'
 
@@ -55,11 +55,12 @@ class Task(Base):
     user_id = Column(Integer(), ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref=backref('tasks', cascade='all, delete-orphan'), uselist=False)
 
+    status = Column(String(length=10), nullable=True)
+
     document_orig_name = Column(String(length=100), nullable=False)
     document_name = Column(String(length=150), nullable=False, unique=True)
     prefix = Column(String(length=50), nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    status = Column(String(length=10), nullable=True)
     attempts = Column(Integer(), nullable=True)
     url = Column(String(length=300), nullable=False)
     fax = Column(String(length=20), nullable=False)
