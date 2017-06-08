@@ -8,6 +8,7 @@ import os
 SECRET_KEY = 'd+/6n~G@]gt.&j"%pku?5<7?GcP;?fDn-3)%cg~g&NN%3LmhH#fmW!A(\4a8Vr%ff4%ZHMk&(J(54q_'
 ENV = os.getenv('ENVIRONMENT')
 DEBUG = ENV != 'production'
+LOGGER_NAME = 'flask'
 
 WTF_CSRF_ENABLED = True
 WTF_CSRF_SECRET_KEY = '2d47a98bf26049cfae5656e2b244e8eb2d47a98bf26049cfae5656e2b244e8eb'
@@ -24,13 +25,13 @@ SECURITY_PASSWORD_SALT = '59)()2^9JPD&SFGq'
 # Flask-Mail
 
 MAIL_SUPPRESS_SEND = DEBUG
-MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
-MAIL_PORT = os.getenv('MAIL_PORT', 587)
-MAIL_USE_TLS = bool(os.getenv('MAIL_USE_TLS', True))
-MAIL_USE_SSL = bool(os.getenv('MAIL_USE_SSL', False))
-MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'osmos451@gmail.com')
-MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'Ferrari2017!')
-MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'osmos451@gmail.com')
+MAIL_SERVER = os.getenv('MAIL_SERVER')
+MAIL_PORT = os.getenv('MAIL_PORT')
+MAIL_USE_TLS = bool(os.getenv('MAIL_USE_TLS'))
+MAIL_USE_SSL = bool(os.getenv('MAIL_USE_SSL'))
+MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
 
 # Twilio
 

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os.path as path
-from flask import send_from_directory
+from flask import send_from_directory, request, jsonify, render_template
+from application.api.base import response_error
 
 
 def configure_routes(app):
@@ -12,6 +13,18 @@ def configure_routes(app):
             'favicon.ico',
             mimetype='image/vnd.microsoft.icon'
         )
+
+    #
+    # Application errors
+    #
+    @app.errorhandler(500)
+    def error_500(e):
+        app.logger.exception(e)
+
+        if request.is_xhr:
+            return jsonify(response_error(message='Server unable to process your request.'))
+        else:
+            return render_template('errors/500.html'), 500
 
     #
     # Application views

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+from application.common import json_enc
 
 
 def response_json(self, success=True, message=None, data=None, code=200, mimetype='application/json'):
@@ -15,7 +16,7 @@ def response_json(self, success=True, message=None, data=None, code=200, mimetyp
 
     # Flask-like response, to response real `Response` object use `flask.Response(*response_json(...))`
     return (
-        json.dumps(data, cls=json_encoder.PickettJSONEncoder),
+        json.dumps(data, cls=json_enc.PickettJSONEncoder),
         code,
         mimetype
     )
