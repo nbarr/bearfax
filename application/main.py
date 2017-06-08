@@ -44,7 +44,6 @@ def configure_logging(app):
     handler.setLevel(logging.DEBUG)
     handler.setFormatter(Formatter('%(asctime)s | %(levelname)7s | %(module)s:%(funcName)s:%(lineno)4s | %(message)s'))
     app.logger.addHandler(handler)
-    app.logger.info('Hi there!')
 
 
 def configure_extensions(app):

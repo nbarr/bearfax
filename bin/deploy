@@ -12,7 +12,7 @@ git reset --hard HEAD
 git pull
 
 echo -en "\033[1;32m> fix owner and group\033[0m\n"
-sudo chown ec2-user:bearfax ../bearfax/
+sudo chown ec2-user:bearfax ../bearfax/ -R
 
 echo -en "\033[1;32m> virtualenv activate\033[0m\n"
 

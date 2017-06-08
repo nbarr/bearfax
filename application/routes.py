@@ -2,7 +2,7 @@
 
 import os.path as path
 from flask import send_from_directory, request, jsonify, render_template
-from application.api.base import response_error
+from application.api.base import response_error, response_not_found
 
 
 def configure_routes(app):
@@ -17,6 +17,7 @@ def configure_routes(app):
     #
     # Application errors
     #
+
     @app.errorhandler(500)
     def error_500(e):
         app.logger.exception(e)
@@ -25,6 +26,15 @@ def configure_routes(app):
             return jsonify(response_error(message='Server unable to process your request.'))
         else:
             return render_template('errors/500.html'), 500
+
+    @app.errorhandler(404)
+    def error_404(e):
+        app.logger.exception(e)
+
+        if request.is_xhr:
+            return jsonify(response_not_found(message='Resource not found.'))
+        else:
+            return render_template('errors/404.html'), 404
 
     #
     # Application views
