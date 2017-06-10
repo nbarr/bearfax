@@ -11,6 +11,6 @@ if [ ! -d "$VENV" ]; then
     exit
 fi
 
-source .venv/bin/activate
-source .vars
+source ./.venv/bin/activate
+source ./.vars
 python -c "import application.cron; application.cron.run()"
