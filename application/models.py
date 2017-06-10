@@ -59,7 +59,7 @@ class Task(Base):
     user_id = Column(Integer(), ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref=backref('tasks', cascade='all, delete-orphan'), uselist=False)
 
-    status = Column(String(length=10))
+    status = Column(String(length=30))
 
     document_orig_name = Column(String(length=100), nullable=False)
     document_name = Column(String(length=150), nullable=False, unique=True)

@@ -4,6 +4,7 @@
 Cron job implementation
 
 Run in command line: python -c "import application.cron; application.cron.run()"
+Add to cron: */5 * * * * uwsgi bearfax 'cd /srv/bearfax; bin/run_cron' | /bin/bash
 """
 
 import logging
@@ -123,4 +124,3 @@ def run():
     cleanup_unconfirmed(logger)
     process_queued(logger)
     process_pending(logger)
-

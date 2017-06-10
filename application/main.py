@@ -8,7 +8,7 @@ from flask import Flask
 
 from application.routes import configure_routes
 from application.common import filters, json_enc
-from application.extensions import csrf, mail, security
+from application.extensions import csrf, mail, security, socketio
 from application.database.datastore import RawSQLAUserDatastore
 from application.database.engine import session
 from application.models import User, Role
@@ -48,9 +48,9 @@ def configure_logging(app):
 def configure_extensions(app):
     datastore = RawSQLAUserDatastore(session, User, Role)
     security.init_app(app, datastore)
-
     csrf.init_app(app)
     mail.init_app(app)
+    socketio.init_app(app)
 
 
 app = init(__name__)
