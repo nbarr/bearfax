@@ -12,5 +12,13 @@ if [ ! -d "$VENV" ]; then
 fi
 
 source ./.venv/bin/activate
-source ./.vars
+
+end_of_file=0
+while [[ $end_of_file == 0 ]]
+do
+  read -r line
+  end_of_file=$?
+  export $line
+done < ./vars
+
 python -c "import application.cron; application.cron.run()"
