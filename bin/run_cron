@@ -13,12 +13,9 @@ fi
 
 source ./.venv/bin/activate
 
-end_of_file=0
-while [[ $end_of_file == 0 ]]
+while read -r line
 do
-  read -r line
-  end_of_file=$?
-  export $line
-done < ./vars
+    export $line
+done < ./.vars
 
 python -c "import application.cron; application.cron.run()"
