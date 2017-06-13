@@ -36,7 +36,7 @@ TWILIO_STATUSES = {
     'received': 'Received',
     'no-answer': 'No answer',
     'busy': 'Busy',
-    'failed': 'Unable to send fax',
+    'failed': 'Fax send failed on remote side',
     'canceled': 'Fax sending was cancelled'
 }
 
