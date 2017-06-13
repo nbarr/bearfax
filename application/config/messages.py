@@ -18,7 +18,7 @@ MESSAGES = {
     'NOT_FOUND': 'Resource not found.',
     'FAX_INVALID': 'Fax number is invalid.',
     'TASK_UNCONFIRMED': 'Your request was not confirmed, please check your email and click on link in it.',
-    'TASK_FAILED': ('Fax number you provided does not answer either not available so your fax cannot be sent there. '
+    'TASK_FAILED': ('Unable to send fax to the desired number <b>{fax}</b>, reason: <b>{reason}</b>. '
                      'You can click <a href="{url}">here and provide another fax number</a> then try again.'),
     'URL_EXPIRED': 'Your url is expired and cannot be used for confirmation anymore. Please try upload again.',
     'URL_INVALID': 'We cannot recognize token in your url, it is invalid.',

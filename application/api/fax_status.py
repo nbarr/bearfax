@@ -4,7 +4,7 @@ from flask import request, Response, url_for
 from flask.views import MethodView
 from application.common.token_serialize import deserialize
 from application.api.base import response_fail, response_ok, response_json
-from application.config.messages import get_message
+from application.config.messages import get_message, TWILIO_STATUSES
 from application.models import Task
 from application.database import session
 
@@ -39,7 +39,9 @@ class FaxStatusApi(MethodView):
             if task.status == Task.STATUS_UNCONFIRMED:
                 message = get_message('TASK_UNCONFIRMED')
             elif task.status == Task.STATUS_FAILED:
-                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token))
+                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
+                                      fax=task.fax,
+                                      reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
             elif task.status == Task.STATUS_PENDING:
                 data = {'in_progress': True}
 
@@ -55,6 +57,8 @@ class FaxStatusApi(MethodView):
             message = None
 
             if task.status == Task.STATUS_FAILED:
-                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token))
+                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
+                                      fax=task.fax,
+                                      reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
 
             return response(*response_json(success=(task.status == Task.STATUS_SENT), message=message))
