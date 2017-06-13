@@ -54,7 +54,7 @@ def process_queued(logger):
             elif fax.status in twilio_statuses_failed:
                 task.status = Task.STATUS_FAILED
 
-            task.twilio_status = result.status
+            task.twilio_status = fax.status
 
             session.commit()
     except Exception as ex:
