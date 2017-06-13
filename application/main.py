@@ -53,4 +53,4 @@ def configure_extensions(app):
     socketio.init_app(app)
 
 
-app = init(__name__)
+flask_app = init(__name__)

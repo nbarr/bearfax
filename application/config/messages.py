@@ -27,6 +27,19 @@ MESSAGES = {
     'MAX_PDF_PAGES_ALLOWED': 'Allowed maximum {pages} pages document, actual is {actual}.'
 }
 
+TWILIO_STATUSES = {
+    'queued': 'Awaiting for processing',
+    'processing': 'Processing and converting',
+    'sending': 'Sending',
+    'delivered': 'Delivered',
+    'receiving': 'Receiving',
+    'received': 'Received',
+    'no-answer': 'No answer',
+    'busy': 'Busy',
+    'failed': 'Unable to send fax',
+    'canceled': 'Fax sending was cancelled'
+}
+
 
 def _safe_format(template, **kwargs):
     context = dict((key, value) for key, value in kwargs.items() if '{{{k}}}'.format(k=key) in template)
