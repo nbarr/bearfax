@@ -20,18 +20,18 @@
     ```
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     ```
-- Install Python 3
+- Install Python 3, git, Nginx and Supervisor
     ```
-    yum -y install python34 python34-pip
+    yum -y install python34 python34-pip git nginx supervisor
     ```
-- Install Uwsgi and Nginx
+- Fix supervisor's config, open `/etc/supervisord.conf` and uncomment:
     ```
-    yum -y install uwsgi uwsgi-emperor uwsgi-plugin-python3 uwsgi-logger-file git nginx
+    chmod=0700
+    chown=nobody:nobody
     ```
-- Turn off uwsgi's tyrant mode
+- Fix supervisor's log permissions
     ```
-    sudo nano /etc/uwsgi.ini
-    emperor-tyrant = true -> emperor-tyrant = false
+    chown nobody  /var/log/supervisor/supervisord.log
     ```
 - OPTIONAL: Install lynx browser
     ```
@@ -66,13 +66,21 @@
     sudo chmod 0600 ~/.ssh/config
     sudo chmod 0600 ~/.ssh/aws-bearfax-github
     ```
-- Make group common for uwsgi and nginx to allow then to write to application directory
+- Create user to down privileges from root
+    ```
+    sudo useradd -b /srv -g bearfax -M -s /sbin/nologin bearfax
+    ```
+- Make group common for deploy user and nginx to allow then to write to application directory
     ```
     sudo groupadd --force bearfax
     ```
-- Add uwsgi and nginx user to group `bearfax`
+- Make group common for run user and nginx to allow then to write to application directory
     ```
-    sudo usermod --append --groups bearfax uwsgi
+    sudo groupadd --force bearfax
+    ```
+- Add user `bearfax` and `nginx` to group `bearfax`
+    ```
+    sudo usermod --append --groups bearfax bearfax
     sudo usermod --append --groups bearfax nginx
     ```
 - Prepare app dir
@@ -80,15 +88,6 @@
     sudo mkdir /srv/bearfax
     sudo chown ec2-user:bearfax /srv/bearfax/
     sudo chmod 0775 /srv/bearfax/
-    ```
-- Uwsgi logging to file:
-    ```
-    sudo touch /var/log/uwsgi.log
-    sudo chown uwsgi:root /var/log/uwsgi.log
-    ```
-- Append to /etc/uwsgi.ini
-    ```
-    logto = /var/log/uwsgi.log
     ```
 - Create virtual environment
     ```
@@ -103,18 +102,21 @@
     ```
     sudo chown -R ec2-user:bearfax /srv/bearfax
     ```
-- Setup uwsgi and nginx configs
+- Setup supervisor and nginx configs
     ```
-    sudo ln -sf /srv/bearfax/conf/uwsgi.ini /etc/uwsgi.d/bearfax-dev.ini
+    sudo ln -sf /srv/bearfax/conf/superviso.ini /etc/supervisord.d/bearfax-dev.ini
     sudo ln -sf /srv/bearfax/conf/nginx.conf /etc/nginx/conf.d/bearfax-dev.conf
     ```
-
-
-source ./venv/bin/activate
-pip install -r requirements.txt
-
-grep nginx /var/log/audit/audit.log | audit2allow -m nginx > nginx.te
-checkmodule -M -m -o nginx.mod nginx.te
-semodule_package -o nginx.pp -m nginx.mod
-semodule -i nginx.pp
-service nginx restart
+- Install project requirements
+    ```
+    source /srv/bearfax/venv/bin/activate
+    pip install -r requirements.txt
+    ```
+- Fix nginx SELinux permissions (if required)
+    ````
+    grep nginx /var/log/audit/audit.log | audit2allow -m nginx > nginx.te
+    checkmodule -M -m -o nginx.mod nginx.te
+    semodule_package -o nginx.pp -m nginx.mod
+    semodule -i nginx.pp
+    service nginx restart
+    ````

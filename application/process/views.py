@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, current_app
 from flask.views import MethodView
 from application.common.token_serialize import deserialize
 from application.config.messages import get_message
@@ -12,6 +12,8 @@ from application.database import session
 class ProcessMethodView(MethodView):
     def get(self, token):
         expired, invalid, data = deserialize(token)
+
+        current_app.info('Processing params: {}'.format(str(data)))
 
         if invalid:
             return render_template('process.html', error_message=get_message('URL_INVALID'))
