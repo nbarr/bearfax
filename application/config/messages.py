@@ -24,7 +24,8 @@ MESSAGES = {
     'URL_INVALID': 'We cannot recognize token in your url, it is invalid.',
     'TASK_NOT_FOUND': 'Task not found.',
     'FAX_MUST_BE_CHANGED': 'Fax number cannot be the same as before and must be changed.',
-    'MAX_PDF_PAGES_ALLOWED': 'Allowed maximum {pages} pages document, actual is {actual}.'
+    'MAX_PDF_PAGES_ALLOWED': 'Allowed maximum {pages} pages document, actual is {actual}.',
+    'BAD_DATASET': 'Bad dataset: <b>{dataset}</b>'
 }
 
 TWILIO_STATUSES = {

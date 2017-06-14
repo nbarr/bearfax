@@ -16,7 +16,9 @@ def response_json(success=True, message=None, data=None, code=200, mimetype='app
 
     # Flask-like response, to response real `Response` object use `flask.Response(*response_json(...))`
     return (
-        json.dumps(response, cls=json_enc.ExtendedJSONEncoder),
+        # For Flask JSON response it should be string, for WS - object
+        # json.dumps(response, cls=json_enc.ExtendedJSONEncoder),
+        response,
         code,
         mimetype
     )

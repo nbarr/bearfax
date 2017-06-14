@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import dateutil.parser
 import decimal
 import json
 
@@ -29,3 +30,28 @@ class ExtendedJSONEncoder(json.JSONEncoder):
             return obj.strftime(DATE_FORMAT)
 
         return super(ExtendedJSONEncoder, self).default(obj)
+
+    @staticmethod
+    def loads_hook(json_dict):
+        for key, value in json_dict.items():
+            try:
+                json_dict[key] = dateutil.parser.parse(value)
+            except:
+                pass
+
+        return json_dict
+
+
+def dumps(obj, **kwargs):
+    return json.dumps(obj, cls=ExtendedJSONEncoder, **kwargs)
+
+
+def loads(s, **kwargs):
+    return json.loads(s, object_hook=ExtendedJSONEncoder.loads_hook, **kwargs)
+
+
+if __name__ == '__main__':
+    s = dumps({'a': 1, 'd': datetime.utcnow()})
+    print('>> Dumps:', s)
+    o = loads(s)
+    print('>> Loads:', o)

@@ -13,16 +13,19 @@ class ProcessMethodView(MethodView):
     def get(self, token):
         expired, invalid, data = deserialize(token)
 
-        if expired:
-            return render_template('process.html', error_message=get_message('URL_EXPIRED'))
-
         if invalid:
             return render_template('process.html', error_message=get_message('URL_INVALID'))
 
-        task = session.query(Task).get(data['task_id'])
+        try:
+            task = session.query(Task).filter(Task.task_uid == data.get('task_uid', -1)).one()
+        except:
+            return render_template('process.html', error_message=get_message('TASK_NOT_FOUND'))
 
         if not task:
             return render_template('process.html', error_message=get_message('TASK_NOT_FOUND'))
+
+        if expired and task.status == Task.STATUS_UNCONFIRMED:
+            return render_template('process.html', error_message=get_message('URL_EXPIRED'))
 
         if task.status in [Task.STATUS_SENT]:
             return redirect(url_for('views.home'))

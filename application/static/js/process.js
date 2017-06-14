@@ -1,49 +1,80 @@
-function processStep($card, callback) {
-  $card.removeClass('unprocessed').addClass('processing');
+this.ProcessModel = function(_config) {
+  var self = this;
+  var defaultConfig = {
 
-  var dataset = $card.attr('data-set');
-  var token = location.pathname.split('/');
-  token = token[token.length-1];
-
-  var onerror = function(message) {
-    $card.removeClass('processing').addClass('error')
-      .find('.error-message')
-      .html(message || 'Unable to get information about this step. Try again later.');
   };
+  var config = $.extend(true, {}, defaultConfig, _config);
 
-  console.log('Polling status endpoint for dataset ' + dataset);
+  var $cards = $('[data-set]');
+  var currentCardIndex = 0;
+  var socket = io('http://' + document.domain + ':' + location.port + '/task_status', {
+    'transports': ['websocket', 'polling']  // Werkzeug = polling,
+  });
+  var throttlingTimeout = 1;
+  var throttlingMultiplier = 2;
 
-  $.ajax({
-    type: 'GET',
-    url: '/api/fax_status/',
-    data: {token: token, dataset: dataset},
-    success: function(response) {
+  function getDataset() {
+    return $cards[currentCardIndex] ? $cards[currentCardIndex].getAttribute('data-set') : null;
+  }
+
+  function getToken() {
+    var parts = location.pathname.split('/');
+    return parts[parts.length-1];
+  }
+
+  function init() {
+    function onError(message) {
+      $($cards[currentCardIndex]).removeClass('processing').addClass('error')
+        .find('.error-message')
+        .html(message || 'Unable to get information about this step. Try again later.');
+    }
+
+    $($cards[currentCardIndex]).removeClass('unprocessed').addClass('processing');
+
+    socket.on('connect', function() {
+      console.log('namespace connect');
+      if (getDataset()) {
+        socket.emit('check_task_status', {dataset: getDataset(), token: getToken()});
+      }
+    });
+
+    socket.on('task_status_response', function(response) {
+      console.log('Task Status Response received: ', response);
+
       if (!response.success) {
-        onerror(response.message);
+        onError(response.message);
       } else {
         if (response.data && response.data.in_progress) {
-          console.log('Response for dataset ' + dataset + ' still not ready, throttling pending request...');
-          setTimeout(function() { processStep($card, callback); }, 7000);
+          throttlingTimeout *= throttlingMultiplier;
+          console.log('Response for dataset ' + getDataset() +
+                      ' still not ready, throttling pending request for ' + throttlingTimeout +
+                      ' seconds...');
         } else {
-          $card.removeClass('processing').addClass('done');
-          if (callback) callback();
+          $($cards[currentCardIndex]).removeClass('processing').addClass('done');
+          currentCardIndex++;
+          throttlingTimeout = 1;
+        }
+
+        if (getDataset()) {
+          $($cards[currentCardIndex]).removeClass('unprocessed').addClass('processing');
+
+          setTimeout(function() {
+            console.log('Emitting check_task_status: ', response.data);
+            socket.emit('check_task_status', {dataset: getDataset(), token: getToken()});
+          }, throttlingTimeout * 1000);
         }
       }
-    },
-    error: onerror,
-    always: function() {
-    }
-  });
-}
-
-$(function() {
-  processStep($('[data-set="fax_requested"]'), function() {
-    processStep($('[data-set="email_verified"]'), function() {
-      processStep($('[data-set="fax_queued"]'), function() {
-        processStep($('[data-set="fax_being_transmitted"]'), function() {
-          processStep($('[data-set="fax_sent"]'));
-        });
-      });
     });
-  });
-});
+
+    socket.on('disconnect', function() {
+      console.log('DISCONNECTED');
+    });
+
+    socket.on('connect_failed', function() {
+      console.log('CONNECT_FAILED');
+    });
+
+  }
+
+  init();
+};

@@ -24,7 +24,11 @@ class FaxStatusApi(MethodView):
             return response(*response_fail(message=get_message('NOT_FOUND')))
 
         session.commit()
-        task = session.query(Task).get(data.get('task_id', -1))
+
+        try:
+            task = session.query(Task).filter(Task.task_uid == data.get('task_uid', -1)).one()
+        except:
+            return response(*response_fail(message=get_message('NOT_FOUND')))
 
         if not task:
             return response(*response_fail(message=get_message('NOT_FOUND')))

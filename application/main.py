@@ -50,7 +50,15 @@ def configure_extensions(app):
     security.init_app(app, datastore)
     csrf.init_app(app)
     mail.init_app(app)
-    socketio.init_app(app)
 
+    socketio_kwargs = {
+        'engineio_logger': app.config['DEBUG'],
+        'json': json_enc
+    }
+
+    if app.config['REDIS_URI']:
+        socketio_kwargs['message_queue'] = app.config['REDIS_URI']
+
+    socketio.init_app(app, **socketio_kwargs)
 
 flask_app = init(__name__)

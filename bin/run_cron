@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Call from crontab
-# */5 * * * * uwsgi bearfax 'cd /srv/bearfax; bin/run_cron' | /bin/bash
+# * * * * * uwsgi cd /srv/bearfax && ./bin/run_cron
 
 
 VENV=.venv

@@ -26,7 +26,8 @@ class HomeMethodView(MethodView):
 
         if form.validate_on_submit():
             file = form.document.data
-            filename = '{}_{}'.format(uuid.uuid4().hex, secure_filename(file.filename))
+            task_uid = uuid.uuid4().hex
+            filename = '{}_{}'.format(task_uid, secure_filename(file.filename))
             prefix = form.email.data[0]
             if not is_ascii(prefix):
                 prefix = '_'
@@ -62,6 +63,7 @@ class HomeMethodView(MethodView):
 
                 task = Task(
                     user=user,
+                    task_uid=task_uid,
                     document_orig_name=file.filename,
                     document_name=filename,
                     prefix=prefix,
@@ -73,7 +75,7 @@ class HomeMethodView(MethodView):
                 session.add(task)
                 session.commit()
 
-                token = serialize({'user_id': user.id, 'task_id': task.id})
+                token = serialize({'user_id': user.id, 'task_id': task.id, 'task_uid': task.task_uid})
                 send_confirmation_mail([form.email.data], task, token)
             except Exception as ex:
                 current_app.logger.exception(ex)

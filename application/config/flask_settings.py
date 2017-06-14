@@ -43,3 +43,6 @@ TWILIO_PHONE = os.getenv('TWILIO_PHONE')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_KEY_ID = os.getenv('AWS_SECRET_KEY_ID')
 AWS_BUCKET = os.getenv('AWS_BUCKET')
+
+# Redis
+REDIS_URI = os.getenv('REDIS_URI')

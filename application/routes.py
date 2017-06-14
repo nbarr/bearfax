@@ -3,6 +3,7 @@
 import os.path as path
 from flask import send_from_directory, request, jsonify, render_template
 from application.api.base import response_error, response_not_found
+from application.api.websockets import configure_websockets
 
 
 def configure_routes(app):
@@ -17,7 +18,6 @@ def configure_routes(app):
     #
     # Application errors
     #
-
     @app.errorhandler(500)
     def error_500(e):
         app.logger.exception(e)
@@ -35,7 +35,6 @@ def configure_routes(app):
             return jsonify(response_not_found(message='Resource not found.'))
         else:
             return render_template('errors/404.html'), 404
-
     #
     # Application views
     #
@@ -59,3 +58,8 @@ def configure_routes(app):
     from application.api.fax_status import FaxStatusApi
     fax_status_api = FaxStatusApi.as_view('views.api.fax_status')
     app.add_url_rule('/api/fax_status/', view_func=fax_status_api, methods=['GET'])
+
+    #
+    # WebSockets
+    #
+    configure_websockets(app)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import uuid
 from flask import abort, render_template
 from flask.views import MethodView
 from application.common.token_serialize import deserialize, serialize
@@ -17,9 +18,12 @@ class TryagainMethodView(MethodView):
         if invalid:
             abort(404)
 
-        task = session.query(Task).get(data['task_id'])
+        try:
+            task = session.query(Task).filter(Task.task_uid == data.get('task_uid', -1)).one()
 
-        if not task or task.status != Task.STATUS_FAILED:
+            if not task or task.status != Task.STATUS_FAILED:
+                abort(404)
+        except:
             abort(404)
 
         form = TryAgainForm(obj=task)
@@ -37,17 +41,22 @@ class TryagainMethodView(MethodView):
         form = TryAgainForm()
 
         if form.validate_on_submit():
-            task = session.query(Task).get(data['task_id'])
+            try:
+                task = session.query(Task).filter(Task.task_uid == data.get('task_uid', -1)).one()
 
-            if not task:
+                if not task:
+                    abort(404)
+            except:
                 abort(404)
 
             if task.fax != form.fax.data:
                 task.fax = form.fax.data
                 task.status = Task.STATUS_UNCONFIRMED
+                task.task_uid = uuid.uuid4().hex
+                task.twilio_status = None
                 session.commit()
 
-                token = serialize({'user_id': task.user.id, 'task_id': task.id})
+                token = serialize({'user_id': task.user.id, 'task_id': task.id, 'task_uid': task.task_uid})
                 send_confirmation_mail([task.user.email], task, token)
                 return render_template('verify_email.html')
 
