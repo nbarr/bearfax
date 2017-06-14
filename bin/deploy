@@ -30,11 +30,8 @@ pip install -r requirements.txt | grep -v "already satisfied"
 
 #( "bin/compile_assets" )
 
-echo -en "\033[1;32m> restore uwsgi logs owner\033[0m\n"
-sudo chown uwsgi:uwsgi logs/*
-
-echo -en "\033[1;32m> restarting uwsgi\033[0m\n"
-sudo service uwsgi restart
+echo -en "\033[1;32m> restarting supervisord\033[0m\n"
+sudo service supervisord restart
 
 echo -en "\033[1;32m> restarting nginx\033[0m\n"
 sudo service nginx restart
