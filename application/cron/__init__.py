@@ -64,6 +64,15 @@ def process_queued(logger, task_uid=None):
     except Exception as ex:
         logger.exception(ex)
 
+        code = getattr(ex, 'code', None)
+
+        try:
+            task.status = Task.STATUS_FAILED
+            task.twilio_status = TWILIO_ERROR_CODES.get(code) or getattr(ex, 'msg', None)
+            session.commit()
+        except:
+            pass
+
     return count
 
 
