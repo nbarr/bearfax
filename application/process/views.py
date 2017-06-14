@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask.views import MethodView
 from application.common.token_serialize import deserialize
 from application.config.messages import get_message
@@ -38,11 +38,8 @@ class ProcessMethodView(MethodView):
         if task.status == Task.STATUS_UNCONFIRMED:
             task.status = Task.STATUS_PENDING
 
+        task.user.last_login_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+
         session.commit()
 
         return render_template('process.html')
-
-        # return render_template('process.html', error_message='''This is temporary message indicated that
-        # your document was uploaded and ready for prcessing. It will expires (and automatically removed) in
-        # <b>{}</b> days. Public URL of your pdf is <b>{}</b>.
-        # '''.format(settings.S3_EXPIRATION_DAYS, task.url))

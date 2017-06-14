@@ -36,10 +36,13 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer(), primary_key=True)
-    email = Column(String(50), nullable=False)
+    email = Column(String(length=50), nullable=False)
     active = Column(Boolean())
     confirmed_at = Column(DateTime())
     roles = relationship('Role', secondary=roles_to_users, backref=backref('users'))
+
+    last_login_ip = Column(String(length=50))
+    register_ip = Column(String(length=50))
 
     def __str__(self):
         return self.email
@@ -55,7 +58,7 @@ class Task(Base):
     STATUS_FAILED = 'failed'
 
     id = Column(Integer(), primary_key=True)
-    task_uid = Column(String(32), nullable=True, index=True, unique=True)
+    task_uid = Column(String(length=32), nullable=True, index=True, unique=True)
 
     user_id = Column(Integer(), ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref=backref('tasks', cascade='all, delete-orphan'), uselist=False)

@@ -3,7 +3,7 @@
 import uuid
 import PyPDF2
 from werkzeug.utils import secure_filename
-from flask import render_template, current_app
+from flask import render_template, current_app, request
 from flask.views import MethodView
 from application.config import settings
 from application.config.messages import get_message
@@ -57,7 +57,10 @@ class HomeMethodView(MethodView):
                 user = session.query(User).filter(User.email == form.email.data).first()
 
                 if not user:
-                    user = User(email=form.email.data)
+                    user = User(
+                        email=form.email.data,
+                        register_ip=request.headers.get('X-Forwarded-For', request.remote_addr)
+                    )
                     session.add(user)
                     session.flush()
 
