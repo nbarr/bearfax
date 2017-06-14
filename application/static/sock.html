@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SocketIO test page</title>
+</head>
+  <body>
+    <h1>Test SocketIO page</h1>
+
+    <h3>Log:</h3>
+    <div id="log"></div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+        var log = document.querySelector('#log');
+
+        var socket = io('http://' + document.domain + ':' + location.port, {
+          'transports': ['websocket', 'polling']
+        });
+
+        socket.on('connect', function() {
+          console.log('Test socket connected');
+          var node = document.createElement('div');
+          node.innerHTML = '<div>Test socket connected</div>';
+          log.appendChild(node);
+          socket.emit('test', {some: 'data', from: 'client'});
+        });
+
+        socket.on('test_response', function(response) {
+          console.log('Test response received: ', response);
+          var node = document.createElement('div');
+          node.innerHTML = '<div>Test response received: ' + JSON.stringify(response) + '</div>';
+          log.appendChild(node);
+        })
+      });
+    </script>
+  </body>
+
+</html>
