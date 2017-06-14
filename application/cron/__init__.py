@@ -122,17 +122,14 @@ def process_pending(logger, task_uid=None):
             count += 1
     except Exception as ex:
         logger.exception(ex)
-
         code = getattr(ex, 'code', None)
 
-        if code and code in TWILIO_ERROR_CODES:
-            try:
-                task.status = Task.STATUS_FAILED
-                task.twilio_status = TWILIO_ERROR_CODES[code]
-
-                session.commit()
-            except:
-                pass
+        try:
+            task.status = Task.STATUS_FAILED
+            task.twilio_status = TWILIO_ERROR_CODES.get(code) or getattr(ex, 'msg', None)
+            session.commit()
+        except:
+            pass
 
     return count
 
