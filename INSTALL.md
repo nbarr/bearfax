@@ -104,7 +104,7 @@
     ```
 - Setup supervisor and nginx configs
     ```
-    sudo ln -sf /srv/bearfax/conf/superviso.ini /etc/supervisord.d/bearfax-dev.ini
+    sudo ln -sf /srv/bearfax/conf/supervisor.ini /etc/supervisord.d/bearfax-dev.ini
     sudo ln -sf /srv/bearfax/conf/nginx.conf /etc/nginx/conf.d/bearfax-dev.conf
     ```
 - Install project requirements
