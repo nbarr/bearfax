@@ -64,8 +64,6 @@ def event_handler(req_data):
     elif dataset == 'fax_being_transmitted':
         success, message, data = True, None, None
 
-        import pdb; pdb.set_trace();
-
         if task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                   fax=task.fax,
