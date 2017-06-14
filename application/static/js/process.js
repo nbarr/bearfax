@@ -61,8 +61,9 @@ this.ProcessModel = function(_config) {
           $($cards[currentCardIndex]).removeClass('unprocessed').addClass('processing');
 
           setTimeout(function() {
-            console.log('Emitting check_task_status: ', response.data);
-            socket.emit('check_task_status', {dataset: getDataset(), token: getToken()});
+            var data = {dataset: getDataset(), token: getToken()};
+            console.log('Emitting check_task_status for dataset ', data);
+            socket.emit('check_task_status', data);
           }, throttlingTimeout * 1000);
         }
       }

@@ -43,7 +43,7 @@ def event_handler(req_data):
     if dataset == 'fax_requested':
         return response(*response_ok())
     elif dataset == 'email_verified':
-        return response(*response_json(success=task.user.confirmed_at))
+        return response(*response_json(success=bool(task.user.confirmed_at)))
     elif dataset == 'fax_queued':
         message, data = None, None
 
@@ -55,7 +55,9 @@ def event_handler(req_data):
                                   reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
         elif task.status == Task.STATUS_PENDING:
             result = process_pending(current_app.logger, task.task_uid)
-            data = {'in_progress': task.status == Task.STATUS_PENDING}
+
+            if task.status == Task.STATUS_PENDING:
+                data['in_progress'] = True
 
             if result is None:
                 message = get_message('QUEUE_FULL')
@@ -71,7 +73,9 @@ def event_handler(req_data):
             success = False
         elif task.status == Task.STATUS_QUEUED:
             result = process_queued(current_app.logger, task.task_uid)
-            data = {'in_progress': task.status == Task.STATUS_QUEUED}
+
+            if task.status == Task.STATUS_QUEUED:
+                data['in_progress'] = True
 
             if result == 0:
                 message = get_message('SILL_SENDING')
