@@ -61,7 +61,7 @@ def event_handler(req_data):
 
             if task.status == Task.STATUS_PENDING:
                 data['in_progress'] = True
-            if task.status == Task.STATUS_FAILED:
+            elif task.status == Task.STATUS_FAILED:
                 message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                       fax=task.fax,
                                       reason=(TWILIO_STATUSES.get(task.twilio_status) or task.twilio_status))
@@ -80,7 +80,7 @@ def event_handler(req_data):
 
             if task.status == Task.STATUS_QUEUED:
                 data['in_progress'] = True
-            if task.status == Task.STATUS_FAILED:
+            elif task.status == Task.STATUS_FAILED:
                 message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                       fax=task.fax,
                                       reason=(TWILIO_STATUSES.get(task.twilio_status) or task.twilio_status))
