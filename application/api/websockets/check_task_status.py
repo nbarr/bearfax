@@ -56,16 +56,17 @@ def event_handler(req_data):
 
         return response(*response_json(success=not bool(message), message=message, data=data))
     elif dataset == 'fax_being_transmitted':
-        message, data = None, None
+        success, message, data = True, None, None
 
         if task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                   fax=task.fax,
                                   reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
+            success = False
         elif task.status == Task.STATUS_QUEUED:
             data = {'in_progress': True}
 
-        return response(*response_ok(message=message, data=data))
+        return response(*response_json(success=success, message=message, data=data))
     elif dataset == 'fax_sent':
         message = None
 
