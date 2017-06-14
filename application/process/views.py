@@ -13,7 +13,7 @@ class ProcessMethodView(MethodView):
     def get(self, token):
         expired, invalid, data = deserialize(token)
 
-        current_app.info('Processing params: {}'.format(str(data)))
+        current_app.logger.info('Processing params: {}'.format(str(data)))
 
         if invalid:
             return render_template('process.html', error_message=get_message('URL_INVALID'))
