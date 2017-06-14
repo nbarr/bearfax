@@ -55,7 +55,7 @@ class Task(Base):
     STATUS_FAILED = 'failed'
 
     id = Column(Integer(), primary_key=True)
-    task_uid = Column(String(32), null=True, index=True, unique=True)
+    task_uid = Column(String(32), nullable=True, index=True, unique=True)
 
     user_id = Column(Integer(), ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref=backref('tasks', cascade='all, delete-orphan'), uselist=False)
