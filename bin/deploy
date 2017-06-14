@@ -19,7 +19,7 @@ echo -en "\033[1;32m> virtualenv activate\033[0m\n"
 source $VENV/bin/activate
 
 echo -en "\033[1;32m> updating requirements\033[0m\n"
-pip install -r requirements.txt | grep -v "already satisfied"
+pip install -r requirements-prod.txt | grep -v "already satisfied"
 
 #echo -en "\033[1;32m> updating database with alembic\033[0m\n"
 #source ./.vars
