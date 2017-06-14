@@ -10,6 +10,7 @@ this.ProcessModel = function(_config) {
   var socket = io('http://' + document.domain + ':' + location.port + '/task_status', {
     'transports': ['websocket', 'polling']  // Werkzeug = polling,
   });
+  var maxTimeout = 32;
   var throttlingTimeout = 1;
   var throttlingMultiplier = 2;
 
@@ -46,6 +47,7 @@ this.ProcessModel = function(_config) {
       } else {
         if (response.data && response.data.in_progress) {
           throttlingTimeout *= throttlingMultiplier;
+          if (throttlingTimeout > maxTimeout) throttlingTimeout = 1;
           console.log('Response for dataset ' + getDataset() +
                       ' still not ready, throttling pending request for ' + throttlingTimeout +
                       ' seconds...');

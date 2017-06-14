@@ -55,10 +55,6 @@ def configure_routes(app):
     # API
     #
 
-    from application.api.fax_status import FaxStatusApi
-    fax_status_api = FaxStatusApi.as_view('views.api.fax_status')
-    app.add_url_rule('/api/fax_status/', view_func=fax_status_api, methods=['GET'])
-
     #
     # WebSockets
     #

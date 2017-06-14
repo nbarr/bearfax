@@ -35,34 +35,39 @@ def cleanup_unconfirmed(logger):
     session.commit()
 
 
-def process_queued(logger):
+def process_queued(logger, task_uid=None):
     """Query Twilio API for currently enqueued tasks and update its status
     """
     print('process_queued')
 
-    twilio_statuses_ok = ['delivered']
-    twilio_statuses_failed = ['no-answer', 'busy', 'failed', 'canceled']
+    if task_uid:
+        queued = session.query(Task).filter(Task.status == Task.STATUS_QUEUED, Task.task_uid == task_uid)
+    else:
+        queued = session.query(Task).filter(Task.status == Task.STATUS_QUEUED)
 
-    queued = session.query(Task).filter(Task.status == Task.STATUS_QUEUED)
+    count = 0
 
     try:
         for task in queued:
             fax = sendfax.get_fax(flask_settings.TWILIO_SID, flask_settings.TWILIO_AUTH_TOKEN, task.fax_sid)
 
-            if fax.status in twilio_statuses_ok:
+            if fax.status in settings.TWILIO_STATUSES_OK:
                 task.status = Task.STATUS_SENT
-            elif fax.status in twilio_statuses_failed:
+            elif fax.status in settings.TWILIO_STATUSES_FAILED:
                 task.status = Task.STATUS_FAILED
 
             task.twilio_status = fax.status
 
             session.commit()
+            count += 1
     except Exception as ex:
         logger.exception(ex)
 
+    return count
 
-def process_pending(logger):
-    """Takes next QUEUED fax request and tries to send it
+
+def process_pending(logger, task_uid=None):
+    """Takes next PENDING fax request and tries to send it
     """
     print('process_pending')
 
@@ -73,11 +78,18 @@ def process_pending(logger):
 
     if amount_to_process <= 0:
         logger.info('Twilio queue is full (curent capacity is {})'.format(settings.TWILIO_QUEUE_CAPACITY))
-        return
+        return None
 
-    tasks = session.query(Task).filter(
-        Task.status == Task.STATUS_PENDING
-    ).order_by(Task.created_at).limit(amount_to_process)
+    if task_uid:
+        tasks = session.query(Task).filter(
+            Task.status == Task.STATUS_PENDING, Task.task_uid == task_uid
+        ).limit(amount_to_process)
+    else:
+        tasks = session.query(Task).filter(
+            Task.status == Task.STATUS_PENDING
+        ).order_by(Task.created_at).limit(amount_to_process)
+
+    count = 0
 
     try:
         for task in tasks:
@@ -106,8 +118,11 @@ def process_pending(logger):
             )
             session.add(loginfo)
             session.commit()
+            count += 1
     except Exception as ex:
         logger.exception(ex)
+
+    return count
 
 
 def run():
@@ -126,5 +141,3 @@ def run():
     logger.addHandler(handler)
 
     cleanup_unconfirmed(logger)
-    process_queued(logger)
-    process_pending(logger)

@@ -25,7 +25,9 @@ MESSAGES = {
     'TASK_NOT_FOUND': 'Task not found.',
     'FAX_MUST_BE_CHANGED': 'Fax number cannot be the same as before and must be changed.',
     'MAX_PDF_PAGES_ALLOWED': 'Allowed maximum {pages} pages document, actual is {actual}.',
-    'BAD_DATASET': 'Bad dataset: <b>{dataset}</b>'
+    'BAD_DATASET': 'Bad dataset: <b>{dataset}</b>',
+    'QUEUE_FULL': 'Query is full, awating for available slot.',
+    'SILL_SENDING': 'Fax sending is still in progresss.'
 }
 
 TWILIO_STATUSES = {

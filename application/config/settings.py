@@ -13,3 +13,6 @@ FAX_CONFIRMATION_EXPIRATION_SECONDS = 3 * 60 * 60   # Fax request must be confir
 TWILIO_QUEUE_CAPACITY = 10
 
 MAX_PDF_PAGES = 10
+
+TWILIO_STATUSES_OK = ['delivered']
+TWILIO_STATUSES_FAILED = ['no-answer', 'busy', 'failed', 'canceled']

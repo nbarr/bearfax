@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from flask import url_for
+from flask import url_for, current_app
 from flask_socketio import emit
 from application.common.token_serialize import deserialize
 from application.api.base import response_fail, response_ok, response_json
 from application.config.messages import get_message, TWILIO_STATUSES
 from application.models import Task
 from application.database import session
+from application.cron import process_pending, process_queued
 
 
 TASK_STATUS_NAMESPACE = '/task_status'
@@ -28,6 +29,7 @@ def event_handler(req_data):
     if invalid or not data:
         return response(*response_fail(message=get_message('NOT_FOUND')))
 
+    # NOTE: Do not remove this line. It notifying SQLAlchemy that session's object is dirty
     session.commit()
 
     try:
@@ -52,11 +54,17 @@ def event_handler(req_data):
                                   fax=task.fax,
                                   reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
         elif task.status == Task.STATUS_PENDING:
-            data = {'in_progress': True}
+            result = process_pending(current_app.logger, task.task_uid)
+            data = {'in_progress': task.status == Task.STATUS_PENDING}
+
+            if result is None:
+                message = get_message('QUEUE_FULL')
 
         return response(*response_json(success=not bool(message), message=message, data=data))
     elif dataset == 'fax_being_transmitted':
         success, message, data = True, None, None
+
+        import pdb; pdb.set_trace();
 
         if task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
@@ -64,7 +72,11 @@ def event_handler(req_data):
                                   reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
             success = False
         elif task.status == Task.STATUS_QUEUED:
-            data = {'in_progress': True}
+            result = process_queued(current_app.logger, task.task_uid)
+            data = {'in_progress': task.status == Task.STATUS_QUEUED}
+
+            if result == 0:
+                message = get_message('SILL_SENDING')
 
         return response(*response_json(success=success, message=message, data=data))
     elif dataset == 'fax_sent':
