@@ -13,6 +13,7 @@ from logging.handlers import RotatingFileHandler
 
 from datetime import datetime, timedelta
 from application.config import settings, flask_settings
+from application.config.messages import TWILIO_ERROR_CODES
 from application.database import session
 from application.models import Task, LogInfo
 from application.common import sendfax
@@ -121,6 +122,17 @@ def process_pending(logger, task_uid=None):
             count += 1
     except Exception as ex:
         logger.exception(ex)
+
+        code = getattr(ex, 'code', None)
+
+        if code and code in TWILIO_ERROR_CODES:
+            try:
+                task.status = Task.STATUS_FAILED
+                task.twilio_status = TWILIO_ERROR_CODES[code]
+
+                session.commit()
+            except:
+                pass
 
     return count
 

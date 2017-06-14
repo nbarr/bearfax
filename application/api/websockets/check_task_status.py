@@ -56,11 +56,15 @@ def event_handler(req_data):
         elif task.status == Task.STATUS_PENDING:
             result = process_pending(current_app.logger, task.task_uid)
 
-            if task.status == Task.STATUS_PENDING:
-                data['in_progress'] = True
-
             if result is None:
                 message = get_message('QUEUE_FULL')
+
+            if task.status == Task.STATUS_PENDING:
+                data['in_progress'] = True
+            if task.status == Task.STATUS_FAILED:
+                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
+                                      fax=task.fax,
+                                      reason=(TWILIO_STATUSES.get(task.twilio_status) or task.twilio_status))
 
         return response(*response_json(success=not bool(message), message=message, data=data))
     elif dataset == 'fax_being_transmitted':
@@ -76,6 +80,10 @@ def event_handler(req_data):
 
             if task.status == Task.STATUS_QUEUED:
                 data['in_progress'] = True
+            if task.status == Task.STATUS_FAILED:
+                message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
+                                      fax=task.fax,
+                                      reason=(TWILIO_STATUSES.get(task.twilio_status) or task.twilio_status))
 
             if result == 0:
                 message = get_message('SILL_SENDING')

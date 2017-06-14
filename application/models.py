@@ -64,7 +64,7 @@ class Task(Base):
     user = relationship('User', backref=backref('tasks', cascade='all, delete-orphan'), uselist=False)
 
     status = Column(String(length=30))
-    twilio_status = Column(String(length=30))
+    twilio_status = Column(String(length=200))
 
     document_orig_name = Column(String(length=100), nullable=False)
     document_name = Column(String(length=150), nullable=False, unique=True)

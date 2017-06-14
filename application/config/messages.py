@@ -43,6 +43,10 @@ TWILIO_STATUSES = {
     'canceled': 'Fax sending was cancelled'
 }
 
+TWILIO_ERROR_CODES = {
+    21203: 'International calling not enabled'
+}
+
 
 def _safe_format(template, **kwargs):
     context = dict((key, value) for key, value in kwargs.items() if '{{{k}}}'.format(k=key) in template)
