@@ -7,6 +7,7 @@ from flask import render_template, current_app, request
 from flask.views import MethodView
 from application.config import settings
 from application.config.messages import get_message
+from application.extensions import recaptcha
 from application.home.forms import HomeUploadForm
 from application.common.s3files import s3_upload_file, s3_get_file, s3_delete_file
 from application.common.formatters import safe_join
@@ -24,7 +25,7 @@ class HomeMethodView(MethodView):
     def post(self):
         form = HomeUploadForm()
 
-        if form.validate_on_submit():
+        if form.validate_on_submit() and recaptcha.verify():
             file = form.document.data
             task_uid = uuid.uuid4().hex
             filename = '{}_{}'.format(task_uid, secure_filename(file.filename))
@@ -96,5 +97,8 @@ class HomeMethodView(MethodView):
                 raise
 
             return render_template('verify_email.html')
+
+        if not request.form.get('g-recaptcha-response', '').strip():
+            form.errors['g-recaptcha-response'] = [get_message('RECAPTCHA_REQUIRED')]
 
         return render_template('home.html', form=form)

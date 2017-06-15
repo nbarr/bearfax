@@ -8,7 +8,7 @@ from flask import Flask
 
 from application.routes import configure_routes
 from application.common import filters, json_enc
-from application.extensions import csrf, mail, security, socketio
+from application.extensions import csrf, mail, security, socketio, recaptcha
 from application.database.datastore import RawSQLAUserDatastore
 from application.database.engine import session
 from application.models import User, Role
@@ -50,6 +50,7 @@ def configure_extensions(app):
     security.init_app(app, datastore)
     csrf.init_app(app)
     mail.init_app(app)
+    recaptcha.init_app(app)
 
     socketio_kwargs = {
         'engineio_logger': app.config['DEBUG'],

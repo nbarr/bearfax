@@ -93,6 +93,10 @@ body {
   min-height: 100vh;
 }
 
+.error {
+  color: red !important;
+}
+
 .navbar-right {
   margin-right: 0;
 }
@@ -173,6 +177,17 @@ footer {
 
 #fileinput-placeholder::-moz-placeholder {
   font-size: 40px
+}
+
+.form-group.recaptcha-row > label.recaptcha-error {
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.button-row {
+  margin-top: 10px;
 }
 
 /* CARDS (not in Bootstrap 3.3.7) */

@@ -27,7 +27,8 @@ MESSAGES = {
     'MAX_PDF_PAGES_ALLOWED': 'Allowed maximum {pages} pages document, actual is {actual}.',
     'BAD_DATASET': 'Bad dataset: <b>{dataset}</b>',
     'QUEUE_FULL': 'Query is full, awating for available slot.',
-    'SILL_SENDING': 'Fax sending is still in progresss.'
+    'SILL_SENDING': 'Fax sending is still in progresss.',
+    'RECAPTCHA_REQUIRED': 'Recaptcha required.',
 }
 
 TWILIO_STATUSES = {
