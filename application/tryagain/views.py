@@ -5,6 +5,7 @@ from flask import abort, render_template
 from flask.views import MethodView
 from application.common.token_serialize import deserialize, serialize
 from application.config.messages import get_message
+from application.extensions import recaptcha
 from application.models import Task
 from application.database import session
 from application.tryagain.forms import TryAgainForm
@@ -40,7 +41,7 @@ class TryagainMethodView(MethodView):
 
         form = TryAgainForm()
 
-        if form.validate_on_submit():
+        if form.validate_on_submit() and recaptcha.verify():
             try:
                 task = session.query(Task).filter(Task.task_uid == data.get('task_uid', -1)).one()
 
@@ -63,5 +64,8 @@ class TryagainMethodView(MethodView):
             form.fax.errors.append(get_message('FAX_MUST_BE_CHANGED'))
             form.document_orig_name.data = task.document_orig_name
             form.email.data = task.user.email
+
+        if not request.form.get('g-recaptcha-response', '').strip():
+            form.errors['g-recaptcha-response'] = [get_message('RECAPTCHA_REQUIRED')]
 
         return render_template('tryagain.html', form=form, token=token, error=error)
