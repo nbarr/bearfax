@@ -36,7 +36,7 @@ on sidebar and check it.
 - Now your instance has DYNAMIC IP. It means that after each start/stop it 
 COULD BE changed (never while instance running).
 - You can connect to it using IP address from section "IPv4 Public IP" in 
-properties list, see [Amazon EC2 instance access](amazon-ec2-instance-acces).
+properties list, see [Amazon EC2 instance access](#user-content-amazon-ec2-instance-acces).
 
 
 # Amazon RDS database creation
@@ -74,7 +74,7 @@ IP address.
 # Amazon EC2 instance access
 
 EC2 instance can be accessed only through SSH (command line). Please refer to 
-section [Amazon EC2 instance creation](#amazon-ec2-instance-creation) to ensure 
+section [Amazon EC2 instance creation](#user-content-amazon-ec2-instance-creation) to ensure 
 that you added chosen correct key pair to inject into created image.
 
 To connect to instance you shoul use next command:
