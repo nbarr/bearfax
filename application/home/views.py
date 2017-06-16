@@ -27,6 +27,7 @@ class HomeMethodView(MethodView):
         form = HomeUploadForm()
 
         if form.validate_on_submit() and recaptcha.verify():
+            task = None
             file = form.document.data
             task_uid = uuid.uuid4().hex
             filename = '{}_{}'.format(task_uid, secure_filename(file.filename))

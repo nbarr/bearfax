@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from twilio.base import values
 from twilio.rest import Client
 from twilio.rest.fax import Fax
 
@@ -9,9 +10,13 @@ def get_fax_client(sid, token):
     return Fax(client)
 
 
-def send_fax(sid, token, to, from_, pdf_url):
+def send_fax(sid, token, to, from_, pdf_url, status_callback=None):
     fax_client = get_fax_client(sid, token)
-    fax = fax_client.faxes.create(from_=from_, to=to, media_url=pdf_url)
+    fax = fax_client.faxes.create(
+        from_=from_,
+        to=to,
+        media_url=pdf_url,
+        status_callback=status_callback or values.unset())
     return fax
 
 

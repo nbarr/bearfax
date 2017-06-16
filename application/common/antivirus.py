@@ -6,7 +6,7 @@ import clamd
 def scan_stream(stream):
     """Scan stream-like object (that supports `read()`). After scan initial stream position restored
     """
-    success, message = False, ''
+    success, message = True, ''
 
     try:
         if not stream.closed:
@@ -20,6 +20,10 @@ def scan_stream(stream):
             stream.seek(position)
     except Exception as ex:
         print('>> scan_stream exception:', ex)
-        message = ex.msg
+
+        # if ex.args and len(ex.args) > 0:
+        #     message = ex.args[0]
+        # else:
+        #     message = getattr(ex, 'msg', '')
 
     return success, message
