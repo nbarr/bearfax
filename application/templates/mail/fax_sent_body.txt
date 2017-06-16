@@ -1,7 +1,7 @@
 Your fax was sent. Now you can click link below and review all your past faxes not older
 then {{ 'S3_EXPIRATION_DAYS' | app_settings_item}} days.
 
-{{ url_for('views.dashboard', token=token) }}
+{{ url_for('views.dashboard', token=token, _external=True) }}
 
 
 --

@@ -4,7 +4,7 @@ from flask import url_for, current_app
 from flask_socketio import emit
 from application.common.token_serialize import deserialize
 from application.common.mailer import send_on_fax_sent_email
-from application.api.base import response_fail, response_ok, response_json
+from application.api.base import response_fail, response_json
 from application.config.messages import get_message, TWILIO_STATUSES
 from application.models import Task
 from application.database import session

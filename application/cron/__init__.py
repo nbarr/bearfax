@@ -57,6 +57,17 @@ def process_queued(logger, task_uid=None):
             elif fax.status in settings.TWILIO_STATUSES_FAILED:
                 task.status = Task.STATUS_FAILED
 
+            if task.twilio_status != fax.status:
+                loginfo = LogInfo(
+                    user_id=task.user_id,
+                    task_id=task.id,
+                    event=LogInfo.EVENT_STATUS_CHANGED,
+                    field='twilio_status',
+                    original_value=task.twilio_status,
+                    new_value=fax.status
+                )
+                session.add(loginfo)
+
             task.twilio_status = fax.status
 
             session.commit()
@@ -103,7 +114,7 @@ def process_pending(logger, task_uid=None):
 
     try:
         for task in tasks:
-            result = sendfax.send_fax(
+            fax = sendfax.send_fax(
                 flask_settings.TWILIO_SID,
                 flask_settings.TWILIO_AUTH_TOKEN,
                 '+{}'.format(task.fax),
@@ -111,20 +122,31 @@ def process_pending(logger, task_uid=None):
                 task.url
             )
 
-            if result.status not in twilio_statuses_queues:
+            if fax.status not in twilio_statuses_queues:
                 task.status = Task.STATUS_FAILED
             else:
-                task.fax_sid = result.sid
+                task.fax_sid = fax.sid
                 task.status = Task.STATUS_QUEUED
 
-            task.twilio_status = result.status
+            if task.twilio_status != fax.status:
+                loginfo = LogInfo(
+                    user_id=task.user_id,
+                    task_id=task.id,
+                    event=LogInfo.EVENT_STATUS_CHANGED,
+                    field='twilio_status',
+                    original_value=task.twilio_status,
+                    new_value=fax.status
+                )
+                session.add(loginfo)
+
+            task.twilio_status = fax.status
 
             loginfo = LogInfo(
                 user_id=task.user_id,
                 task_id=task.id,
                 event=LogInfo.EVENT_TWILIO_REQUEST_SUBMITED,
                 field='fax_sid',
-                original_value=result.sid
+                original_value=fax.sid
             )
             session.add(loginfo)
             session.commit()
