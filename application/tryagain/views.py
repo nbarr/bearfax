@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import uuid
-from flask import abort, render_template
+from flask import abort, render_template, request
 from flask.views import MethodView
 from application.common.token_serialize import deserialize, serialize
 from application.config.messages import get_message
