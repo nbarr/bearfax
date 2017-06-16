@@ -47,11 +47,11 @@ def send_confirmation_mail(recipients, task, token):
 
 
 def send_on_fax_sent_email(recipients, task):
-    html, text, subj = render('mail/fax_sent', task=task)
-
     token = serialize({'user_id': task.user.id})
 
-    msg = Message(subj, sender=current_app.config['MAIL_DEFAULT_SENDER'], recipients=recipients, token=token)
+    html, text, subj = render('mail/fax_sent', task=task, token=token)
+
+    msg = Message(subj, sender=current_app.config['MAIL_DEFAULT_SENDER'], recipients=recipients)
     msg.html = html
     msg.body = text
 

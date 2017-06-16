@@ -29,6 +29,8 @@ this.ProcessModel = function(_config) {
       $($cards[currentCardIndex]).removeClass('processing').addClass('error')
         .find('.error-message')
         .html(message || 'Unable to get information about this step. Try again later.');
+
+      $($cards[currentCardIndex]).find('.card-text').html('');
     }
 
     $($cards[currentCardIndex]).removeClass('unprocessed').addClass('processing');
