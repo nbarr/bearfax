@@ -4,6 +4,7 @@ import os.path as path
 from flask import send_from_directory, request, jsonify, render_template
 from application.api.base import response_error, response_not_found
 from application.api.websockets import configure_websockets
+from application.common.views import StaticPageView
 
 
 def configure_routes(app):
@@ -50,6 +51,9 @@ def configure_routes(app):
     from application.process.views import ProcessMethodView
     process_view = ProcessMethodView.as_view('views.process')
     app.add_url_rule('/process/<token>', view_func=process_view, methods=['GET'])
+
+    tos_view = StaticPageView.as_view('views.tos', template='tos.html', context={})
+    app.add_url_rule('/tos', view_func=tos_view, methods=['GET'])
 
     #
     # API

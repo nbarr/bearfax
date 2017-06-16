@@ -1,0 +1,363 @@
+{% extends 'index.html' %}
+{% from '_macros.html' import render_field, render_checkbox, render_errors %}
+
+{%- set page_title, main_class='Ezfax :: Home', 'vcentered' -%}
+
+{% block head_css %}
+{{ super() }}
+<link href="{{ url_for_static('lib/intl-tel-input/css/intltelinput.css') }}" rel="stylesheet" type="text/css" />
+{% endblock head_css %}
+
+
+{% block main %}
+<div>
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+
+      <h1 class="text-center">Terms and Conditions of Service</h1>
+
+      <p class="text-right">Last Updated: June 1 2016</p>
+
+      <p>Welcome to the BearFax.com website, owned and operated by Bear Fax, Inc. (hereinafter
+      referred to as “BearFax”, “we” or “us”). These Terms and Conditions of Service (the “Terms of
+      Service”) apply to the website BearFax.com (including any versions optimized for viewing on
+      wireless or tablet devices) (“Website”), and to the Internet-based facsimile (“fax”)
+      transmission services provided by BearFax on the Website (the “Fax Services”). These Terms of
+      Service do not apply to any website owned or controlled by BearFax that does not link to it.
+      BY USING THE WEBSITE AND FAX SERVICES, YOU ARE ACCEPTING THE PRACTICES DESCRIBED IN THESE
+      TERMS OF SERVICE. IF YOU DO NOT AGREE TO THESE TERMS OF SERVICE, PLEASE DO NOT USE THE WEBSITE
+      OR FAX SERVICES AND EXIT IMMEDIATELY. WE RESERVE THE RIGHT TO MODIFY OR AMEND THESE TERMS OF
+      SERVICE FROM TIME TO TIME WITHOUT NOTICE. YOUR CONTINUED USE OF THE WEBSITE OR FAX SERVICES
+      FOLLOWING THE POSTING OF CHANGES TO THESE TERMS WILL MEAN YOU ACCEPT THOSE CHANGES. UNLESS WE
+      PROVIDE YOU WITH SPECIFIC NOTICE, NO CHANGES TO OUR TERMS OF SERVICE WILL APPLY
+      RETROACTIVELY.</p>
+
+
+      <p>Service and Content Details. The Website provides Internet-based outbound Fax Services.
+      Details of the Fax Services available for free or for purchase via the BearFax.com Website are
+      set forth on that Website. All prices are displayed inclusive of all taxes. All features,
+      Content (defined below), specifications, Fax Services, and prices described or depicted on the
+      Website are subject to change at any time without notice. The inclusion of any Content or Fax
+      Services on the Website at a particular time does not imply or warrant that such Content or
+      Fax Services will be available at any or all times. We attempt to ensure that information on
+      the Website is complete, accurate and current. Despite our efforts, the information on the
+      Website may occasionally be inaccurate, incomplete, or out of date. We make no representation
+      as to the completeness or accuracy of any information on the Website. In addition, we may make
+      changes in information about price and availability of the Website or Fax Services without
+      notice.</p>
+
+      <p>Licenses. BearFax grants you a limited, revocable, non-exclusive, non-transferable license
+      to access and make personal, non-commercial use of the Website and the Fax Services, as well
+      as the content featured or displayed on the Website, including without limitation text,
+      graphics, photographs, images, moving images, sound, and illustrations (“Content”). This
+      license does not include: (i) any resale or commercial use of the Fax Services or the Content;
+      (ii) any derivative use of the Fax Services or the Content; (iii) any downloading or copying
+      of Content for the benefit of a third party; or (iv) any use of data mining, robots, or
+      similar data gathering and extraction tools. Neither the Fax Services nor the Content may be
+      reproduced, sold, resold, visited or otherwise exploited for any commercial purpose without
+      BearFax' express written consent. You will not frame or utilize framing techniques to enclose
+      any trademark, logo or other proprietary information (including images, text, page layout or
+      form) of BearFax, its content providers or its affiliates without express written consent. You
+      will not use any meta-tags or any other "hidden text" utilizing our name or trademarks without
+      our express written consent. Any unauthorized use automatically terminates the permissions
+      and/or licenses granted by us to you.</p>
+
+      <p>Copyright and Ownership. All elements of the Website, including, without limitation, the
+      general design and the Content, are owned by BearFax, its licensors, vendors, agents and/or
+      its Content providers, and are protected by trade dress, copyright, moral rights, trademark
+      and other laws relating to intellectual property rights. The Website and the Fax Services may
+      only be used for the intended purpose for which such Website and the Fax Services are being
+      made available. You may not modify any Content, and you may not copy, distribute, transmit,
+      display, perform, reproduce, publish, license, create derivative works from, transfer or sell
+      any information or work contained on the Website. The Website, the Content, and all related
+      rights will remain the exclusive property of BearFax or its licensors unless otherwise
+      expressly agreed. You will not remove any copyright, trademark or other proprietary notices
+      from material found on the Website.</p>
+
+      <p>Trademarks. All trademarks, service marks and trade names of BearFax used on the Website
+      and the Fax Services (including, but not limited to, BearFax's name and logo, the Fax
+      Services' name, design, and any logos) (collectively “Marks”) are trademarks or registered
+      trademarks of BearFax or its affiliates, partners, vendors or licensors. You may not use,
+      copy, reproduce, republish, upload, post, transmit, distribute, or modify the Marks in any
+      way, including in advertising or publicity pertaining to distribution of messages and
+      materials through the Fax Services, without BearFax's prior written consent. Other than as
+      expressly permitted by these Terms of Service, the use of the Marks on any other website or
+      network computer environment is not allowed.</p>
+
+      <p>Unauthorized Use of the Fax Services. You are prohibited from using the Website and/or the
+      Fax Services for the following purposes:
+      <ul>
+        <li>to send or transmit any unlawful, threatening, defamatory, fraudulent, libelous,
+        obscene, pornographic or profane messages or material, or any material that could constitute
+        or encourage conduct that would be considered a criminal offense or give rise to civil
+        liability, or otherwise violate any law;</li>
+        <li>to send or transmit any messages or material that violates any third party's rights,
+        including intellectual property rights, privacy rights, or rights of publicity;</li>
+        <li>to send or transmit any advertisements, chain letters, bulk faxes, or junk faxes;
+        or</li>
+        <li>to send or transmit faxes using any automated means, including, but not limited to, the
+        use of a bot, script, or macro.</li>
+      </ul>
+      </p>
+
+      <p>In addition to any remedies that we may have at law or in equity, if we determine, in our
+      sole discretion, that you have violated or are likely to violate the foregoing prohibitions,
+      we may take any action we deem necessary to cure or prevent the violation. You are solely
+      responsible for any messages, information, or material that you transmit using the Fax
+      Services (“Fax Transmissions”). Under no circumstances will BearFax be liable in any way for
+      any loss or damages of any kind incurred as a result of any Fax Transmissions. We may fully
+      cooperate with law enforcement, in accordance with our Privacy Policy. BearFax reserves the
+      right, but does not have an obligation, to monitor or review all Fax Transmissions.</p>
+
+      <p>Website Submitted Materials. We are concerned about ensuring the security of your
+      information and take certain security measures to help protect such information. Please
+      understand, however, that while we try our best to safeguard your information and the
+      confidentiality of your communications transmitted through the Website, no transmission of
+      data over the Internet or any other public network can be guaranteed to be 100% secure, and
+      BearFax cannot assume responsibility for the confidentiality or secrecy of any information,
+      correspondence, creative works, demos, ideas, suggestions, concepts, methods, systems,
+      designs, plans, techniques or other materials sent to BearFax or via the Website ("Website
+      Submitted Materials"). You need to help protect the privacy of your own information. You must
+      take precautions to protect the security of any information that you transmit over any public
+      or untrusted network by using encryption and other techniques to prevent unauthorized
+      interception of your information. You are responsible for the security of your information
+      when using unencrypted, public or otherwise unsecured networks. BearFax is not responsible for
+      any information provided by you to third parties, and third party use of any such information
+      is not subject to the privacy provisions in our Privacy Policy. Please consult our Privacy
+      Policy for information about instances in which BearFax may use or disclose information that
+      you submit via the Website.Fees. BearFax may offer free or paid versions of the Fax Services,
+      as stated in Section 1 above. BearFax uses a third-party payment processor to process payments
+      for use of paid versions of the Fax Services. By purchasing such Fax Services, you authorize
+      BearFax to disclose your information and payment instructions to the payment processor, and
+      agree to be bound by the current version of processor's privacy policy and terms of service.
+      Information about BearFax's current payment processor is available here. If you fail to pay
+      applicable charges for use of the Fax Services, BearFax may terminate your access to, and use
+      of, the Fax Services, and may pursue all available remedies under the law.</p>
+
+      <p>General Representations and Warranties. You represent that you are 18 years old or older,
+      have the right and authority to enter into these Terms of Service as a legally binding
+      agreement, are fully able and competent to satisfy the terms, conditions, and obligations
+      herein, and your use of the Website and the Fax Services is and will be in compliance with all
+      applicable laws. In connection with your use of the Website and the Fax Services, you submit,
+      you affirm, represent and warrant the following: (i) if necessary, you have the consent of
+      each and every identifiable natural person to use such persons name or likeness in the manner
+      contemplated by the Website or the Fax Services; (ii) you have read, understood, agree with,
+      and will abide by these Terms of Service; (iii) you are not, and have not been an agent of
+      BearFax and were not and are not acting on behalf of, or as a representative of BearFax; and
+      (iv) Fax Transmissions, the Website Submitted Materials, and BearFax's use thereof will not
+      infringe any rights of any third party, including but not limited to any intellectual property
+      rights, privacy rights, and rights of publicity.</p>
+
+      <p>Territory. BearFax makes no promise that the Website or the Fax Services are appropriate or
+      available for use in locations outside the United States (“Territory”), and accessing the
+      Website and/or the Fax Services from territories where its Content is illegal or unlawful is
+      prohibited. If you choose to access the Website and/or the Fax Services from locations outside
+      the Territory, you do so at your own risk. It is your responsibility to ascertain and obey all
+      applicable local, state, federal and international laws (including minimum age requirements)
+      in regard to your use of the Website and/or the Fax Services.</p>
+
+      <p>Hyperlinks. We grant you a limited, non-exclusive, revocable, non-assignable, personal, and
+      non-transferable license to create hyperlinks to the Website, so long as: (i) the hyperlinks
+      only incorporate text, and do not use any BearFax or BearFax.com logo or graphic, (ii) the
+      hyperlinks do not suggest any affiliation with BearFax or BearFax.com, or cause any other
+      confusion, (iii) the hyperlinks do not portray BearFax, the Website or Fax Services in a
+      false, misleading, derogatory, or otherwise offensive matter, and (iv) the hyperlinks are not
+      on a website that contains content that is inappropriate for children or that is offensive,
+      obscene, lewd, lascivious, filthy, violent, harassing, threatening, abusive, illegal, that
+      violates any right of any third party, or is otherwise objectionable to BearFax. Any permitted
+      hyperlinks to the Website must comply will all applicable laws, rules, and regulations.
+      BearFax reserves the right to suspend or prohibit linking to the Website for any reason, in
+      its sole discretion, without advance notice or any liability of any kind to you or any third
+      party.</p>
+
+      <p>Third Party Links. The Website may contain links to websites that are not owned, operated
+      or controlled by BearFax or any affiliate. All such links are provided solely as a convenience
+      to you. If you use these links, you will leave the Website. Neither we nor any of our
+      respective affiliates are responsible for any content, materials or other information located
+      on or accessible from any other website. Neither we nor any of our affiliates endorse,
+      guarantee, or make any representations or warranties regarding any other websites, or any
+      content, materials or other information located or accessible from any other websites, or the
+      results that you may obtain from using any other websites. If you decide to access any other
+      websites linked to or from the Website, you do so entirely at your own risk.</p>
+
+      <p>Access and Interference. You agree that you will not use any robot, spider, scraper or
+      other automated means to access the Website and/or the Fax Services for any purpose without
+      our express written permission. Additionally, you agree that you will not: (i) take any action
+      that imposes, or may impose in our sole discretion an unreasonable or disproportionately large
+      load on our infrastructure; (ii) interfere or attempt to interfere with the proper working of
+      the Website and/or the Fax Services or any activities conducted on the Website and/or the Fax
+      Services; or (iii) bypass any measures we may use to prevent or restrict access to the Website
+      and/or the Fax Services.</p>
+
+      <p>Force Majeure. Neither you nor BearFax will be responsible for damages, delays, or failures
+      in performance resulting from acts or occurrences beyond your or BearFax's reasonable control
+      (as applicable), including: fire, lightning, explosion, power surge or failure, water, acts of
+      God, war, revolution, civil commotion or acts of civil or military authorities or public
+      enemies; any law, order, regulation, ordinance, or requirement of any government or legal body
+      or any representative of any such government or legal body; or labor unrest, including
+      strikes, slowdowns, picketing, or boycotts.</p>
+
+      <p>DISCLAIMERS. Your use of THE WEBSITE AND/OR The FAX SERVICES is at your risk. THE
+      INFORMATION, MATERIALS AND FAX SERVICES PROVIDED ON OR THROUGH THE WEBSITE AND FAX SERVICES
+      ARE PROVIDED "AS IS" WITHOUT ANY WARRANTIES OF ANY KIND INCLUDING WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, SECURITY OR NON-INFRINGEMENT OF
+      INTELLECTUAL PROPERTY. NEITHER BearFax NOR ANY OF ITS AFFILIATES WARRANTS THE ACCURACY OR
+      COMPLETENESS OF THE CONTENT, INFORMATION, MATERIALS, OR FAX SERVICES PROVIDED ON OR THROUGH
+      THE WEBSITE. THE CONTENT, INFORMATION, MATERIALS, AND FAX SERVICES PROVIDED ON OR THROUGH THE
+      WEBSITE MAY BE OUT OF DATE, AND NEITHER BearFax, NOR ANY OF ITS AFFILIATES, MAKES ANY
+      COMMITMENT OR ASSUMES ANY DUTY TO UPDATE SUCH CONTENT, INFORMATION, MATERIALS, OR FAX
+      SERVICES. EXTERNAL FACTORS BEYOND BearFax'S CONTROL, INCLUDING, BUT NOT LIMITED TO, INTERNET
+      SERVICE INTERRUPTIONS, MAY INTERFERE WITH THE OPERATION OR AVAILABILITY OF THE WEBSITE OR THE
+      FAX SERVICES, AND BearFax DOES NOT COMMIT TO OR WARRANT THE AVAILABILITY OF THE WEBSITE OR THE
+      FAX SERVICES AT ANY TIME. THE FOREGOING EXCLUSIONS OF IMPLIED WARRANTIES DO NOT APPLY TO THE
+      EXTENT PROHIBITED BY LAW. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM
+      BearFax OR THROUGH THE WEBSITE,OR BearFax'S PRODUCTS OR FAX SERVICES WILL CREATE ANY WARRANTY
+      NOT EXPRESSLY MADE HEREIN.</p>
+
+      <p>LIMITATIONS OF LIABILITY. BearFax does not assume any responsibility and will not be liable
+      for any damages to or any viruses that may infect your computer, telecommunication equipment,
+      or other property caused by or arising from your access to, use or browsing of the Website or
+      the Fax Services, from your downloading of any information or materials from the Website, from
+      your Fax Transmissions, or your submission of Website Submitted Materials. IN NO EVENT WILL
+      BearFax OR ANY OF ITS AFFILIATES NOR ANY PARTY INVOLVED IN THE CREATION, PRODUCTION OR
+      TRANSMISSION OF THE WEBSITE AND THE FAX SERVICES BE LIABLE TO YOU OR ANYONE ELSE FOR ANY
+      INDIRECT, SPECIAL, PUNITIVE, INCIDENTAL OR CONSEQUENTIAL DAMAGES (INCLUDING THOSE RESULTING
+      FROM LOST PROFITS, LOST DATA OR BUSINESS INTERRUPTION) ARISING OUT OF THE USE, INABILITY TO
+      USE, OR THE RESULTS OF USE OF THE WEBSITE OR THE FAX SERVICES, ANY WEBSITES LINKED TO THE
+      WEBSITE, OR THE CONTENT, MATERIALS, INFORMATION OR SERVICES CONTAINED ON ANY OR ALL SUCH
+      WEBSITES, WHETHER BASED ON WARRANTY, CONTRACT, TORT OR ANY OTHER LEGAL THEORY AND WHETHER OR
+      NOT ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. YOU SPECIFICALLY ACKNOWLEDGE THAT BearFax WILL
+      NOT BE LIABLE FOR ANY FAX TRANSMISSIONS OR WEBSITE SUBMITTED MATERIALS, OR THE DEFAMATORY,
+      OFFENSIVE, OR ILLEGAL CONDUCT OF ANY THIRD PARTY, AND THAT THE RISK OF HARM OR DAMAGE FROM THE
+      FOREGOING RESTS ENTIRELY WITH YOU. THE FOREGOING LIMITATIONS OF LIABILITY DO NOT APPLY TO THE
+      EXTENT PROHIBITED BY LAW. IN THE EVENT OF ANY PROBLEM WITH THE WEBSITE OR THE FAX SERVICES,
+      YOU AGREE THAT YOUR SOLE REMEDY IS TO CEASE USING THE WEBSITE AND THE FAX SERVICES. IN NO
+      EVENT WILL BearFax'S TOTAL LIABILITY TO YOU FOR ALL DAMAGES, LOSSES, AND CAUSES OF ACTION
+      WHETHER IN CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE EXCEED TWENTY FIVE DOLLARS (US
+      .00).</p>
+
+      <p>Indemnity. You agree to defend, indemnify and hold BearFax and any affiliated entity or
+      individuals harmless from any and all liabilities, costs, and expenses, including reasonable
+      attorneys' fees, related to or in connection with (i) the use of the Website and/or the Fax
+      Services, any Fax Transmissions, or the submission of Website Submitted Materials by you or
+      your authorized users; (ii) your violation of any term of these Terms of Service or the
+      BearFax.com Privacy Policy , including your breach of any of the representations and
+      warranties set forth herein; (iii) your violation of any third party right, including any
+      right of privacy, publicity rights or other intellectual property rights; (iv) your violation
+      of any law, rule or regulation of the United States or any other country; or (v) any claim for
+      damages that arise as a result of any Fax Transmissions or Website Submitted Materials.</p>
+
+      <p>Release. In the event that you have a dispute with one or more other users of the Website
+      and/or the Fax Services or another third-party, you release BearFax and our and any affiliated
+      company or individuals from claims, demands and damages (actual and consequential) of every
+      kind and nature, known and unknown, suspected and unsuspected, disclosed and undisclosed,
+      arising out of or in any way connected with such disputes. IF YOU ARE A CALIFORNIA RESIDENT,
+      YOU WAIVE CALIFORNIA CODE § 1542, WHICH SAYS: A GENERAL RELEASE DOES NOT EXTEND TO CLAIMS
+      WHICH THE CREDITOR DOES NOT KNOW OR SUSPECT TO EXIST IN HIS FAVOR AT THE TIME OF EXECUTING THE
+      RELEASE, WHICH IF KNOWN BY HIM MUST HAVE MATERIALLY AFFECTED HIS SETTLEMENT WITH THE
+      DEBTOR.</p>
+
+      <p>Termination. Either party may suspend or terminate your use of the Website or the Fax
+      Services at any time, for any reason or for no reason. You are personally liable for any
+      orders placed or charges incurred through your account prior to termination. We may also block
+      your access to the Website or the Fax Services in the event that (a) you breach these Terms of
+      Service; (b) we are unable to verify or authenticate any information you provide to us; or (c)
+      we believe that your actions may cause financial loss or legal liability for you, our users,
+      or us.</p>
+
+      <p>General. Any claim arising from or relating to the use of the Website, the Fax Services,
+      these Terms of Service, or any other aspect of your relationship with BearFax is governed by
+      the laws of the state of Oregon You consent to the exclusive jurisdiction of the state and
+      federal courts located in Multnomah County, Oregon. A printed version of these Terms of
+      Service will be admissible in judicial and administrative proceedings based upon or relating
+      to these Terms of Service to the same extent and subject to the same conditions as other
+      business documents and records originally generated and maintained in printed form. If any
+      provision of these Terms of Service is held to be invalid or unenforceable, such provision
+      will be struck and the remaining provisions will be enforced. You agree that these Terms of
+      Service and all incorporated agreements may be automatically assigned by BearFax in our sole
+      discretion. Headings are for reference purposes only and in no way define, limit, construe, or
+      describe the scope or extent of such section. The term “including” is to be construed to mean
+      “without limitation.” Our failure to act with respect to a breach by you or others does not
+      waive our right to act with respect to subsequent or similar breaches.</p>
+
+      <p>Survival. Paragraphs 12 (Access and Interference), 14 (Disclaimers), 15 (Limitations of
+      Liability), 16 (Indemnity), 17 (Release), 19 (General) and this Paragraph 20 (Survival), will
+      survive the expiration or termination of these Terms of Service.</p>
+
+      <p>DIGITAL MILLENNIUM COPYRIGHT ACT (“DMCA”) NOTICE. In operating the Website, we may act as a
+      “services provider” (as defined by DMCA) and offer services as online provider of materials
+      and links to third party websites. As a result, third party materials that we do not own or
+      control may be transmitted, stored, accessed or otherwise made available using the Website.
+      BearFax has in place certain legally mandated procedures regarding allegations of copyright
+      infringement occurring on the Website. BearFax has adopted a policy that provides for the
+      immediate removal of any Content or the suspension of any user that is found to have infringed
+      on the rights of BearFax or of a third party, or that has otherwise violated any intellectual
+      property laws or regulations, or any of the terms and conditions of this Terms of Service. If
+      you believe any material available via the Website infringes a copyright, you should notify us
+      using the notice procedure for claimed infringement under the DMCA (17 U.S.C. Sect.
+      512(c)(2)). We will respond expeditiously to remove or disable access to the material claimed
+      to be infringing and will follow the procedures specified in the DMCA to resolve the claim
+      between the notifying party and the alleged infringer who provided the Content. Our designated
+      agent (i.e., proper party for notice) to whom you should address infringement notices under
+      the DMCA is:</p>
+
+      <p>
+      Name:<br/>
+      Noah Barr<br/>
+      CEO<br/>
+      2565 Leghorn St<br/>
+      Mountain View, CA 94043
+      </p>
+
+      <p>Please provide the following notice:</p>
+
+      <p>Identify the copyrighted work or other intellectual property that you claim has been
+      infringed;<br/>
+      Identify the material on the Website that you claim is infringing, with enough detail so that
+      we may locate it on the Website;<br/>
+      A statement by you that you have a good faith belief that the disputed use is not authorized
+      by the copyright owner, its agent, or the law;<br/>
+      A statement by you declaring under penalty of perjury that (a) the above information in your
+      notice is accurate, and (b) that you are the owner of the copyright interest involved or that
+      you are authorized to act on behalf of that owner;<br/>
+      Your address, telephone number, and email address; and<br/>
+      Your physical or electronic signature.</p>
+
+      <p>We may give notice to our users of any infringement notice by means of a general notice on
+      any of the Website, electronic mail to a user's e-mail address in our records, or by written
+      communication sent by first-class mail to a user's physical address in our records. If you
+      receive such an infringement notice, you may provide counter-notification in writing to the
+      designated agent that includes the information below. To be effective, the
+      counter-notification must be a written communication that includes the following:</p>
+
+      Your physical or electronic signature;
+
+      <p>Identification of the material that has been removed or to which access has been disabled,
+      and the location at which the material appeared before it was removed or access to it was
+      disabled;<br/>
+
+      A statement from you under the penalty of perjury, that you have a good faith belief that the
+      material was removed or disabled as a result of a mistake or misidentification of the material
+      to be removed or disabled; and<br/>
+
+      Your name, physical address and telephone number, and a statement that you consent to the
+      jurisdiction of a Federal District Court for the judicial district in which your physical
+      address is located, or if your physical address is outside of the United States, for any
+      judicial district in which we may be found, and that you will accept service of process from
+      the person who provided notification of allegedly infringing material or an agent of such
+      person.<br/>
+
+      <p>Entire Agreement. The Terms of Service and BearFax.com's Privacy Policy constitute the
+      entire agreement between the user and BearFax with respect to the Website and the Fax
+      Services, and supersede any prior understandings or agreements (written or oral).</p>
+
+      <p>Additional Assistance. If you do not understand any of the foregoing Terms of Service or if
+      you have any questions or comments, we invite you to contact our Customer Service Department
+      by email at support@BearFax.com.</p>
+
+      <p>Copyright Notice. All design, graphics, text selections, arrangements, and software of the
+      Website and the Fax Services are Copyright © 2017, Bear Fax, Inc. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</div>
+{% endblock main %}

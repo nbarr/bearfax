@@ -36,7 +36,7 @@
 
           {{ render_field(form.fax, class='form-control') }}
           {{ render_field(form.email, class='form-control') }}
-          {{ render_checkbox(form.tos_accepted, 'I accept <a href="#!">Terms of Service</a>')}}
+          {{ render_checkbox(form.tos_accepted, 'I accept <a href="{}">Terms of Service</a>'.format(url_for('views.tos')))}}
 
           <div class="form-group text-center recaptcha-row">
           {%- if form.errors['g-recaptcha-response']  -%}
