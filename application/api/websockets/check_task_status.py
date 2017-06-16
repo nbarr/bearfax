@@ -3,6 +3,7 @@
 from flask import url_for, current_app
 from flask_socketio import emit
 from application.common.token_serialize import deserialize
+from application.common.mailer import send_on_fax_sent_email
 from application.api.base import response_fail, response_ok, response_json
 from application.config.messages import get_message, TWILIO_STATUSES
 from application.models import Task
@@ -96,6 +97,10 @@ def event_handler(req_data):
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                   fax=task.fax,
                                   reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
+
+        if task.status == Task.STATUS_SENT:
+            send_on_fax_sent_email([task.user.email], task)
+
         return response(*response_json(success=(task.status == Task.STATUS_SENT), message=message))
 
     return response(*response_fail(message=get_message('BAD_DATASET', dataset=dataset)))

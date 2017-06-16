@@ -1,20 +1,21 @@
 {% extends 'mail/index.html' %}
 
 {%- block page_header_text -%}
-Your fax is almost sent!
+Fax sent successfully!
 {%- endblock page_header_text -%}
 
 {%- block page_upper_text -%}
+Your fax was sent. Now you can click on button below and review all your past faxes not older
+then {{ 'S3_EXPIRATION_DAYS' | app_settings_item}} days.
 {%- endblock page_upper_text -%}
 
 {%- block page_button_url -%}
-{{ url_for('views.process', token=token, _external=True) }}
+{{ url_for('views.dashboard', token=token) }}
 {%- endblock page_button_url -%}
 
 {%- block page_button_text -%}
-Confirm email
+Review past faxes
 {%- endblock page_button_text -%}
 
 {%- block page_bottom_text -%}
-Or copy and paste this link to your browser address bar: {{ url_for('views.process', token=token, _external=True) }}
 {%- endblock page_bottom_text -%}

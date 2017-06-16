@@ -5,7 +5,7 @@ from flask_mail import Message
 from application.extensions import mail
 from application.database import session
 from application.models import LogInfo
-from application.common.token_serialize import deserialize
+from application.common.token_serialize import serialize
 
 
 def render(template_key, **kwargs):
@@ -30,21 +30,37 @@ def render(template_key, **kwargs):
 
 
 def send_confirmation_mail(recipients, task, token):
-    url = url_for('views.process', token=token, _external=True)
-
-    html, text, subj = render('mail/confirmation', task=task, user=task.user, url=url)
+    html, text, subj = render('mail/confirmation', task=task, token=token)
     msg = Message(subj, sender=current_app.config['MAIL_DEFAULT_SENDER'], recipients=recipients)
     msg.html = html
     msg.body = text
 
     mail.send(msg)
 
-    _, _, data = deserialize(token)
+    loginfo = LogInfo(
+        user_id=task.user.id,
+        task_id=task.id,
+        event=LogInfo.EVENT_CONFIRM_EMAIL_SENT,
+    )
+    session.add(loginfo)
+    session.commit()
+
+
+def send_on_fax_sent_email(recipients, task):
+    html, text, subj = render('mail/fax_sent', task=task)
+
+    token = serialize({'user_id': task.user.id})
+
+    msg = Message(subj, sender=current_app.config['MAIL_DEFAULT_SENDER'], recipients=recipients, token=token)
+    msg.html = html
+    msg.body = text
+
+    mail.send(msg)
 
     loginfo = LogInfo(
-        user_id=data['user_id'],
-        task_id=data['task_id'],
-        event=LogInfo.EVENT_CONFIRM_EMAIL_SENT,
+        user_id=task.user.id,
+        task_id=task.id,
+        event=LogInfo.EVENT_FAX_SUCCESSFULLY_SENT,
     )
     session.add(loginfo)
     session.commit()

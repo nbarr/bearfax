@@ -85,6 +85,7 @@ class LogInfo(Base):
     EVENT_STATUS_CHANGED = 'task_status_changed'
     EVENT_TWILIO_REQUEST_SUBMITED = 'twilio_request_submited'
     EVENT_TWILIO_RESPONSE_RECEIVED = 'twilio_response_received'
+    EVENT_FAX_SUCCESSFULLY_SENT = 'fax_sent'
 
     id = Column(Integer(), primary_key=True)
 
