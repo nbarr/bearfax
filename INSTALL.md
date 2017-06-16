@@ -115,7 +115,6 @@ address if your EC2 instance with Elastic IP. Thus you can connect under "root"
 only from EC2 instance's command line.
 
 
-
 # Application and requirements installation
 
 - Install Nano editor:
@@ -263,4 +262,39 @@ only from EC2 instance's command line.
     ```
     sudo chmod 0701 /var/run/clamd.scan/
     sudo chmod 0666 /var/run/clamd.scan/clamd.sock
+    ```
+
+
+# How to install SSL certificate for host
+
+Prerequisites:
+- attached domain name
+- web server
+
+Steps:
+- Create directory for `letsencrypt` infrastructure
+    ```
+    mkdir /srv/letsencrypt
+    ```
+- Clone repository with latest code
+    ```
+    git clone https://github.com/letsencrypt/letsencrypt /srv/letsencrypt
+    ```
+- Ensure that nginx.conf contains location for `.well-known` endpoint
+    ```
+    location ~ /.well-known {
+        allow all;
+    }
+    ```
+- Run certificate acquiring program
+    ```
+    sudo /srv/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path=/usr/share/nginx/html -d bearfax.com -d www.bearfax.com
+    ```
+- Generate key for forward secrecy (it takes time)
+    ```
+    sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 4096
+    ```
+- Add certificate renewal to `/etc/crontab` schedule (monthly is ok)
+    ```
+    0 * 1 * * root /srv/letsencrypt/letsencrypt-auto renew
     ```
