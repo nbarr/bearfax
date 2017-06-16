@@ -41,14 +41,22 @@ def event_handler(req_data):
     if not task:
         return response(*response_fail(message=get_message('NOT_FOUND')))
 
-    if dataset == 'fax_requested':
-        return response(*response_ok())
-    elif dataset == 'email_verified':
-        return response(*response_json(success=bool(task.user.confirmed_at)))
-    elif dataset == 'fax_queued':
-        message, data = None, None
+    message, data = None, {}
 
-        if task.status == Task.STATUS_UNCONFIRMED:
+    if dataset == 'fax_requested':
+        if task.status == Task.STATUS_SENT:
+            message = get_message('FAX_ALREADY_SENT')
+
+        return response(*response_json(success=not bool(message), message=message))
+    elif dataset == 'email_verified':
+        if task.status == Task.STATUS_SENT:
+            message = get_message('FAX_ALREADY_SENT')
+
+        return response(*response_json(success=not bool(message) and bool(task.user.confirmed_at), message=message))
+    elif dataset == 'fax_queued':
+        if task.status == Task.STATUS_SENT:
+            message = get_message('FAX_ALREADY_SENT')
+        elif task.status == Task.STATUS_UNCONFIRMED:
             message = get_message('TASK_UNCONFIRMED')
         elif task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
@@ -69,13 +77,12 @@ def event_handler(req_data):
 
         return response(*response_json(success=not bool(message), message=message, data=data))
     elif dataset == 'fax_being_transmitted':
-        success, message, data = True, None, {}
-
-        if task.status == Task.STATUS_FAILED:
+        if task.status == Task.STATUS_SENT:
+            message = get_message('FAX_ALREADY_SENT')
+        elif task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                   fax=task.fax,
                                   reason=(TWILIO_STATUSES.get(task.twilio_status) or TWILIO_STATUSES.get('failed')))
-            success = False
         elif task.status == Task.STATUS_QUEUED:
             result = process_queued(current_app.logger, task.task_uid)
 
@@ -89,10 +96,8 @@ def event_handler(req_data):
             if result == 0:
                 message = get_message('SILL_SENDING')
 
-        return response(*response_json(success=success, message=message, data=data))
+        return response(*response_json(success=not bool(message), message=message, data=data))
     elif dataset == 'fax_sent':
-        message = None
-
         if task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),
                                   fax=task.fax,
