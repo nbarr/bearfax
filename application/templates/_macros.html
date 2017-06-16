@@ -1,6 +1,6 @@
 {% macro render_errors(field) %}
   {%- if field.errors -%}
-  <label class="control-label error" for="{{ field.id }}">{{ '<br>'.join(field.errors) }}</label>
+  <label class="control-label error" for="{{ field.id }}">{{ '<br>'.join(field.errors) | safe }}</label>
   {%- endif -%}
 {% endmacro %}
 
