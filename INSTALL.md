@@ -233,11 +233,34 @@ only from EC2 instance's command line.
     pip install -r requirements.txt
     ```
 - Fix nginx SELinux permissions (if required)
-    ````
+    ```
     grep nginx /var/log/audit/audit.log | audit2allow -m nginx > nginx.te
     checkmodule -M -m -o nginx.mod nginx.te
     semodule_package -o nginx.pp -m nginx.mod
     semodule -i nginx.pp
     service nginx restart
-    ````
+    ```
+- Install Clamav for antivirus check
+    ```
+    yum install clamav clamav-scanner-systemd clamav-update
+    sudo ln -s /etc/clamd.d/scan.conf /etc/clamd.conf
+    sudo setsebool -P antivirus_can_scan_system 1
+    ```
+- Edit Clamav config:
+    ```
+    sudo nano /etc/clamd.conf
 
+    Comment out line "Example"
+    Uncomment line "LocalSocket /var/run/clamd.scan/clamd.sock"
+    ```
+- Fix Clamav updater config
+    ```
+    sudo nano /etc/sysconfig/freshclam
+
+    Comment out line "#FRESHCLAM_DELAY=disabled-warn"
+    ```
+- Fix clamd scanner folder permissions
+    ```
+    sudo chmod 0701 /var/run/clamd.scan/
+    sudo chmod 0666 /var/run/clamd.scan/clamd.sock
+    ```

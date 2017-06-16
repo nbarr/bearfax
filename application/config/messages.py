@@ -29,6 +29,8 @@ MESSAGES = {
     'QUEUE_FULL': 'Query is full, awating for available slot.',
     'SILL_SENDING': 'Fax sending is still in progresss.',
     'RECAPTCHA_REQUIRED': 'Recaptcha required.',
+    'DOCUMENT_CONTAINS_VIRUSES': ('Document <b>{document}</b> you uploaded may contain viruses '
+                                  'and cannot be processed. Virus scan result: <b>{message}</b>.')
 }
 
 TWILIO_STATUSES = {

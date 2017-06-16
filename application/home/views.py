@@ -10,6 +10,7 @@ from application.config.messages import get_message
 from application.extensions import recaptcha
 from application.home.forms import HomeUploadForm
 from application.common.s3files import s3_upload_file, s3_get_file, s3_delete_file
+from application.common.antivirus import scan_stream
 from application.common.formatters import safe_join
 from application.common.filters import is_ascii, strip_non_numeric
 from application.models import Task, User
@@ -43,6 +44,14 @@ class HomeMethodView(MethodView):
                 return render_template('home.html', form=form)
 
             try:
+                file.stream.seek(0)
+
+                no_virus, message = scan_stream(file.stream)
+                if not no_virus:
+                    form.document.errors.append(get_message('DOCUMENT_CONTAINS_VIRUSES',
+                                                            document=file.filename, message=message))
+                    return render_template('home.html', form=form)
+
                 file.stream.seek(0)
 
                 s3_upload_file(
