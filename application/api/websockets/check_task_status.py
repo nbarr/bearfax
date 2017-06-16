@@ -69,7 +69,7 @@ def event_handler(req_data):
 
         return response(*response_json(success=not bool(message), message=message, data=data))
     elif dataset == 'fax_being_transmitted':
-        success, message, data = True, None, None
+        success, message, data = True, None, {}
 
         if task.status == Task.STATUS_FAILED:
             message = get_message('TASK_FAILED', url=url_for('views.tryagain', token=token),

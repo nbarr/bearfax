@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from flask import current_app
 from flask_socketio import emit
 from application.extensions import socketio
 from application.api.websockets import check_task_status
@@ -8,7 +9,7 @@ from application.api.websockets import check_task_status
 def configure_websockets(app):
     @socketio.on_error_default
     def default_error_handler(e):
-        raise RuntimeError()
+        current_app.logger.exception(e)
 
     @socketio.on('disconnect')
     def test_disconnect():
