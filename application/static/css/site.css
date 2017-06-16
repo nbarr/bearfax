@@ -392,6 +392,10 @@ footer {
     z-index: 101;
 }
 
+.form-horizontal label.control-label.error {
+  text-align: left;
+}
+
 .card.error {
   background-color: #f97b7b;
 }
