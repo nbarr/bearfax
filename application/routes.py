@@ -52,6 +52,10 @@ def configure_routes(app):
     process_view = ProcessMethodView.as_view('views.process')
     app.add_url_rule('/process/<token>', view_func=process_view, methods=['GET'])
 
+    from application.dashboard.views import DashboardMethodView
+    dashboard_view = DashboardMethodView.as_view('views.dashboard')
+    app.add_url_rule('/dashboard/<token>', view_func=dashboard_view, methods=['GET'])
+
     tos_view = StaticPageView.as_view('views.tos', template='tos.html', context={})
     app.add_url_rule('/tos', view_func=tos_view, methods=['GET'])
 

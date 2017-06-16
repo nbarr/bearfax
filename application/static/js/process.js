@@ -13,6 +13,7 @@ this.ProcessModel = function(_config) {
   var maxTimeout = 32;
   var throttlingTimeout = 1;
   var throttlingMultiplier = 2;
+  var afterLastProcessedTimeout = 10000;
 
   function getDataset() {
     return $cards[currentCardIndex] ? $cards[currentCardIndex].getAttribute('data-set') : null;
@@ -47,7 +48,7 @@ this.ProcessModel = function(_config) {
       } else {
         if (response.data && response.data.in_progress) {
           throttlingTimeout *= throttlingMultiplier;
-          if (throttlingTimeout > maxTimeout) throttlingTimeout = 1;
+          if (throttlingTimeout > maxTimeout) throttlingTimeout /= throttlingMultiplier;
           console.log('Response for dataset ' + getDataset() +
                       ' still not ready, throttling pending request for ' + throttlingTimeout +
                       ' seconds...');
@@ -65,6 +66,11 @@ this.ProcessModel = function(_config) {
             console.log('Emitting check_task_status for dataset ', data);
             socket.emit('check_task_status', data);
           }, throttlingTimeout * 1000);
+        } else {
+          // Last card/dataset processed
+          setTimeout(function() {
+            location = '/dashboard/' + getToken();
+          }, afterLastProcessedTimeout);
         }
       }
     });
