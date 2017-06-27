@@ -36,7 +36,13 @@ class HomeMethodView(MethodView):
                 prefix = '_'
             prefix = safe_join([prefix, form.email.data], '/', remove_duplicated_separators=True)
 
-            pdf_reader = PyPDF2.PdfFileReader(file.stream)
+            try:
+                pdf_reader = PyPDF2.PdfFileReader(file.stream)
+            except Exception as ex:
+                current_app.logger.exception(ex)
+                form.document.errors.append(get_message('INVALID_DOCUMENT'))
+                return render_template('home.html', form=form)
+
             pdf_pages_count = pdf_reader.getNumPages()
 
             if pdf_pages_count > settings.MAX_PDF_PAGES:

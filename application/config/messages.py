@@ -30,7 +30,8 @@ MESSAGES = {
     'SILL_SENDING': 'Fax sending is still in progresss.',
     'RECAPTCHA_REQUIRED': 'Recaptcha required.',
     'DOCUMENT_CONTAINS_VIRUSES': ('Your document <b>{document}</b> contain viruses and cannot be processed. '
-                                  'Virus scan result: <b>{message}</b>.')
+                                  'Virus scan result: <b>{message}</b>.'),
+    'INVALID_DOCUMENT': 'Document provided either is not a PDF or invalid.'
 }
 
 TWILIO_STATUSES = {
