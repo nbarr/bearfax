@@ -32,6 +32,8 @@
 </head>
 
 <body class="{{ body_class or 'container-fluid' }}">
+  {%- include 'ads/google_analytics.html' -%}
+
   <header class="{{ header_class }}">
     {% block header %}
     <nav class="navbar navbar-static-top">
